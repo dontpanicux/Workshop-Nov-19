@@ -115,15 +115,96 @@ button.copy:focus-visible,.navbtn:focus-visible{outline:3px solid #9CCBFF;outlin
 #notes .say{color:#fff}
 .slide aside.notes{display:none}
 #progress{position:fixed;left:0;top:0;height:4px;background:var(--blue);width:0;transition:width .35s var(--ease);z-index:10}
-#hint{position:fixed;right:20px;top:14px;font:13px var(--sans);color:#7C7C90;z-index:4;user-select:none}
-#nav{position:fixed;right:16px;bottom:14px;display:flex;gap:8px;z-index:6;opacity:.35;transition:opacity .2s}
-#nav:hover{opacity:1}
-.navbtn{font:600 15px var(--sans);background:#0C0C0F;color:#E9E7F0;border:1px solid #33333D;border-radius:8px;padding:8px 12px;cursor:pointer;min-width:44px;min-height:40px}
+/* Ridgeline's own colors inside its dashboard and email mock-ups */
+.rl{--blue:#2F5D50;--blue-soft:#E3ECE8;--miss:#9C3D2E}
+/* Resend Domains row mock */
+.domains{margin-top:22px;background:var(--surface);border:1px solid var(--rule);border-radius:var(--radius);overflow:hidden;font-size:22px}
+.domains-head,.domains-row{display:grid;grid-template-columns:1fr auto;align-items:center;gap:20px;padding:14px 24px}
+.domains-head{background:var(--pale);border-bottom:1px solid var(--rule);font-size:17px;font-weight:600;color:var(--muted)}
+.domains-row span:first-child{font-family:var(--mono);font-size:20px}
+.verified{display:inline-flex;align-items:center;gap:8px;background:var(--pass-bg);color:var(--pass);font-weight:600;font-size:18px;padding:5px 14px;border-radius:999px}
+.verified::before{content:"";width:9px;height:9px;border-radius:50%;background:var(--pass)}
+.bonus-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:28px;flex:1;min-height:0}
+/* sparse slides: larger text, content centered in the space below the heading */
+.slide.roomy>h2+*{margin-top:auto}
+.slide.roomy::after{content:"";margin-top:auto}
+.roomy .body{font-size:31px!important}
+.roomy .lead{font-size:44px}
+.roomy .small{font-size:24px!important}
+.roomy ol.steps li{font-size:32px;margin-bottom:30px}
+.roomy ol.steps li::before{width:54px;height:54px;font-size:24px}
+.roomy ol.steps li{grid-template-columns:54px 1fr}
+.roomy table.ledger{font-size:28px!important}
+.roomy table.ledger th{font-size:20px}
+.roomy table.ledger td{padding:20px 24px}
+.roomy .panel{padding:40px 46px}
+.roomy .panel h3{font-size:27px;margin-bottom:14px}
+.roomy .strip-label{font-size:27px}
+.roomy .strip i{width:46px;height:46px}
+.roomy .field{font-size:23px}
+.roomy .bignum{font-size:200px}
+.roomy .email{font-size:27px}
+.roomy .email .meta{font-size:21px}
+.roomy .email .testline{font-size:20px}
+.roomy .brand{font-size:46px!important}
+/* Below 800px: a stacked, scrolling page instead of the scaled stage */
+@media (max-width:799px){
+  html,body{height:auto;overflow:auto;background:var(--ground)}
+  #viewport{position:static;overflow:visible}
+  #stage{position:static;width:auto;height:auto;transform:none!important}
+  .slide,.slide.active{display:flex;position:relative;inset:auto;height:auto;overflow:hidden;padding:36px 16px 28px;border-bottom:1px solid var(--rule)}
+  .slide.dark{min-height:460px;justify-content:center;border-bottom:0}
+  .slide.roomy>h2+*,.slide.roomy::after{margin-top:0}
+  .slide.roomy::after{display:none}
+  h1{font-size:40px;max-width:none}
+  h2{font-size:29px;max-width:none;margin-bottom:20px!important}
+  h3,.roomy .panel h3,.side-notes h3{font-size:17px}
+  .slide p,.slide li,.slide td,.roomy .body,.roomy .small{font-size:17px!important;line-height:1.5}
+  .slide .lead,.roomy .lead{font-size:20px!important}
+  .slide .kicker,.slide .title-meta{font-size:16px!important;margin-top:20px}
+  .slide .kicker{margin-top:0}
+  .slide .small,.slide .strip-label,.slide .side-notes p,.slide .email .testline,.roomy .small{font-size:15px!important}
+  .slide p.brand,.roomy .brand{font-size:22px!important}
+  .slide p.bignum,.roomy .bignum{font-size:76px!important}
+  .slide table.ledger th{font-size:13px!important;padding:8px 10px}
+  .slide table.ledger td{font-size:15px!important;padding:9px 10px}
+  table.ledger{display:block;overflow-x:auto;max-width:100%!important}
+  table.ledger td.num{white-space:nowrap}
+  .cols,.cols-62,.prompt-wrap,.bonus-grid{display:flex;flex-direction:column;gap:18px!important}
+  .cols>*,.cols-62>*,.prompt-wrap>*,.bonus-grid>*{min-width:0;max-width:100%}
+  .panel,.roomy .panel{padding:18px 18px}
+  .side-notes .panel{padding:16px 18px;margin-bottom:12px}
+  ol.steps li,.roomy ol.steps li{grid-template-columns:32px 1fr;gap:12px;margin-bottom:14px}
+  ol.steps li::before,.roomy ol.steps li::before{width:32px;height:32px;font-size:15px;margin-top:-3px}
+  .step{opacity:1;transform:none}
+  .strip{gap:10px;margin:22px 0;flex-wrap:wrap}
+  .strip i,.strip.big i,.roomy .strip i{width:26px;height:26px}
+  .prompt-box{flex:none}
+  .prompt-head{flex-wrap:wrap;padding:12px 14px;font-size:14px;gap:10px}
+  button.copy{font-size:16px;min-height:44px;padding:0 18px}
+  pre.prompt,pre.prompt.big{flex:none;overflow:visible;font-size:14px;line-height:1.55;padding:16px}
+  .bars{height:180px;gap:8px}
+  .bar{font-size:13px}
+  .bar small{font-size:11px}
+  .email,.roomy .email{font-size:16px}
+  .email .meta,.roomy .email .meta{font-size:14px;padding:12px 16px}
+  .email .bodytext{padding:16px}
+  .field,.roomy .field{font-size:14px;overflow-wrap:anywhere}
+  .domains{font-size:15px}
+  .domains-head,.domains-row{padding:10px 14px}
+  .domains-row span:first-child{font-size:14px}
+  .verified{font-size:14px;padding:3px 10px}
+  .btn{font-size:12px!important;padding:5px 8px!important}
+  .wordmark{position:static;margin-top:28px;width:78px;height:22px}
+  .folio{position:static;align-self:flex-end;font-size:12px;margin-top:16px}
+  .wordmark+.folio{margin-top:-18px}
+  .dark .folio{padding:2px 8px}
+  #progress,#notes{display:none!important}
+}
 @media (prefers-reduced-motion:reduce){.slide.dark.active::before{animation:none}.step,button.copy{transition:none}}
 </style>
 </head>
 <body>
-<div id="hint">Right arrow: next. Left arrow: back. N: notes. F: fullscreen.</div>
 <div id="viewport"><div id="stage">
 
 <!-- 1 -->
@@ -158,11 +239,11 @@ button.copy:focus-visible,.navbtn:focus-visible{outline:3px solid #9CCBFF;outlin
 <section class="slide">
   <h2>A shop website, and a dashboard that notices</h2>
   <div class="cols-62">
-    <div class="panel" style="padding:24px 28px">
-      <p style="font-size:30px;font-weight:600;letter-spacing:-.02em">Ridgeline Coffee <span class="tag">Sample data</span></p>
+    <div class="panel rl" style="padding:24px 28px">
+      <p class="brand" style="font-size:30px;font-weight:600;letter-spacing:-.02em">Ridgeline Coffee <span class="tag">Sample data</span></p>
       <p class="small" style="font-size:18px;margin:4px 0 16px">46 customers, 21 regulars, 217 orders</p>
       <p style="font-size:18px;font-weight:600;color:var(--muted)">7 regulars haven't ordered in 6 weeks</p>
-      <table class="ledger" style="font-size:20px"><tr><td>Marcus Hill</td><td>House Blend</td><td class="num rust">9 wk</td><td class="num"><span class="btn" style="font-size:15px;padding:6px 12px">Send win-back email</span></td></tr><tr><td>Rosa Delgado</td><td>Ethiopia Guji</td><td class="num rust">7 wk</td><td class="num"><span class="btn" style="font-size:15px;padding:6px 12px">Send win-back email</span></td></tr><tr><td>Leila Farah</td><td>House Blend</td><td class="num rust">6 wk</td><td class="num"><span class="btn" style="font-size:15px;padding:6px 12px">Send win-back email</span></td></tr></table>
+      <table class="ledger" style="font-size:20px"><tr><td>Marcus Hill</td><td>House Blend</td><td class="num rust">8 wk</td><td class="num"><span class="btn" style="font-size:15px;padding:6px 12px">Send win-back email</span></td></tr><tr><td>Leila Farah</td><td>House Blend</td><td class="num rust">6 wk</td><td class="num"><span class="btn" style="font-size:15px;padding:6px 12px">Send win-back email</span></td></tr><tr><td>Rosa Delgado</td><td>Ethiopia Guji</td><td class="num rust">6 wk</td><td class="num"><span class="btn" style="font-size:15px;padding:6px 12px">Send win-back email</span></td></tr></table>
     </div>
     <ol class="steps" style="margin-top:6px">
       <li class="step"><span><b>Gone quiet.</b> Regulars who haven't come back in the weeks you choose.</span></li>
@@ -201,7 +282,7 @@ Do not build: payments, a cart, or logins.</pre>
 </section>
 
 <!-- 5 -->
-<section class="slide">
+<section class="slide roomy">
   <h2>A regular already trusts you</h2>
   <div class="cols">
     <div class="panel body"><h3>A new customer</h3><p>Has to find you, learn your prices, and take a chance on the first order.</p></div>
@@ -213,7 +294,7 @@ Do not build: payments, a cart, or logins.</pre>
 </section>
 
 <!-- 6 -->
-<section class="slide">
+<section class="slide roomy">
   <h2>Start with regulars only</h2>
   <div class="cols">
     <div>
@@ -249,11 +330,11 @@ Do not build: payments, a cart, or logins.</pre>
 </section>
 
 <!-- 8 -->
-<section class="slide">
+<section class="slide roomy">
   <h2>Meet today's example</h2>
   <div class="cols">
     <div class="body">
-      <p style="font-size:40px;font-weight:600;letter-spacing:-.02em;margin-bottom:18px">Ridgeline Coffee Roasters</p>
+      <p class="brand" style="font-size:40px;font-weight:600;letter-spacing:-.02em;margin-bottom:18px">Ridgeline Coffee Roasters</p>
       <p>A small-batch roaster selling 12 oz bags online and at a Saturday market. Most regulars reorder about every four weeks.</p>
       <p style="margin-top:18px">The owner noticed market Saturdays felt thinner but couldn't say who'd stopped coming. Quiet window: <b>6 weeks</b>.</p>
     </div>
@@ -268,8 +349,7 @@ Do not build: payments, a cart, or logins.</pre>
 
 <!-- 9 -->
 <section class="slide dark">
-  <p class="kicker">Part 2</p>
-  <h1 style="margin-top:20px">Build the dashboard</h1>
+  <h1>Build the dashboard</h1>
   <div class="wordmark">bolt.new</div><div class="folio"></div>
   <aside class="notes"><p>Switch to Bolt.new: a fresh tab with the prompt box ready.</p></aside>
 </section>
@@ -280,7 +360,7 @@ Do not build: payments, a cart, or logins.</pre>
   <div class="prompt-wrap">
     <div class="prompt-box">
       <div class="prompt-head"><span>Paste into the same project as the site. Replace [YOUR EMAIL]</span><button class="copy" data-copy="p1">Copy prompt</button></div>
-      <pre class="prompt big" id="p1" style="font-size:15.5px;line-height:1.5">Add a private win-back dashboard at /dashboard. Don't link it from the site. Regulars buy 12 oz bags about every four weeks.
+      <pre class="prompt big" id="p1">Add a private win-back dashboard at /dashboard. Don't link it from the site. Regulars buy 12 oz bags about every four weeks.
 
 - Email and password sign-in. Only [YOUR EMAIL] can sign up or read orders. Site visitors can still add orders.
 - Use the existing orders table. Add an "Import CSV" button for a file with columns name, email, item, amount, date. Importing the same file twice adds no duplicates. Add a "Clear all orders" button.
@@ -301,7 +381,7 @@ Use the site's fonts and colors. No gradients, cards, or emoji.</pre>
 </section>
 
 <!-- 11 -->
-<section class="slide">
+<section class="slide roomy">
   <h2>Example data first, then the real file</h2>
   <div class="cols">
     <ol class="steps">
@@ -321,7 +401,7 @@ Use the site's fonts and colors. No gradients, cards, or emoji.</pre>
 </section>
 
 <!-- 12 -->
-<section class="slide">
+<section class="slide roomy">
   <h2>Three ways to send. Pick yours now</h2>
   <table class="ledger">
     <tr><th style="white-space:nowrap">Way to send</th><th>Setup</th><th>Sends from</th><th>Best if</th></tr>
@@ -338,13 +418,13 @@ Use the site's fonts and colors. No gradients, cards, or emoji.</pre>
 <section class="slide">
   <h2 style="margin-bottom:26px">Read the list</h2>
   <div class="cols-62">
-    <div class="panel" style="padding:22px 26px">
+    <div class="panel rl" style="padding:22px 26px">
       <p style="font-size:18px;font-weight:600;color:var(--muted);margin-bottom:6px">7 regulars haven't ordered in 6 weeks</p>
       <table class="ledger" style="font-size:20px">
         <tr><th>Customer</th><th>Last item</th><th class="num">Quiet</th><th class="num">Orders</th></tr>
-        <tr><td>Marcus Hill</td><td>House Blend</td><td class="num rust">9 wk</td><td class="num">9</td></tr>
-        <tr><td>Rosa Delgado</td><td>Ethiopia Guji</td><td class="num rust">7 wk</td><td class="num">9</td></tr>
+        <tr><td>Marcus Hill</td><td>House Blend</td><td class="num rust">8 wk</td><td class="num">9</td></tr>
         <tr><td>Leila Farah</td><td>House Blend</td><td class="num rust">6 wk</td><td class="num">9</td></tr>
+        <tr><td>Rosa Delgado</td><td>Ethiopia Guji</td><td class="num rust">6 wk</td><td class="num">9</td></tr>
         <tr><td>Jonah Weiss</td><td>Ethiopia Guji</td><td class="num rust">12 wk</td><td class="num">8</td></tr>
         <tr><td>Aiko Tanaka</td><td>Swiss Water Decaf</td><td class="num rust">10 wk</td><td class="num">8</td></tr>
         <tr><td>Claire Dubois</td><td>Colombia Huila</td><td class="num rust">8 wk</td><td class="num">8</td></tr>
@@ -353,23 +433,22 @@ Use the site's fonts and colors. No gradients, cards, or emoji.</pre>
     </div>
     <div>
       <table class="ledger"><tr><th>Quiet window</th><th class="num">Regulars flagged</th></tr><tr><td>4 weeks</td><td class="num">10</td></tr><tr><td><b>6 weeks</b></td><td class="num"><b>7</b></td></tr><tr><td>8 weeks</td><td class="num">4</td></tr></table>
-      <div class="panel" style="margin-top:28px"><h3>Checkpoint</h3><p class="body" style="font-size:22px">A private dashboard with a connected database, showing who's slipping away. Post "7" in chat when you see it.</p></div>
+      <div class="panel" style="margin-top:28px"><h3>Checkpoint</h3><p class="body" style="font-size:22px">A private dashboard with a connected database, showing who's slipping away. What would your quiet window be? Tell us in chat.</p></div>
     </div>
   </div>
   <div class="folio"></div>
-  <aside class="notes"><p>On Backup A, right after the import, switch the window to 4 and 8 weeks.</p><p class="say">"Seven regulars, sorted by how loyal they've been. Marcus has ordered nine times and hasn't been back in nine weeks. That's the first email I'd send."</p><p>The file is dated for Nov 19. On the replay, everyone looks a few weeks quieter; the method is the same.</p></aside>
+  <aside class="notes"><p>On Backup A, right after the import, switch the window to 4 and 8 weeks.</p><p class="say">"Seven regulars, sorted by how loyal they've been. Marcus has ordered nine times and hasn't been back in eight weeks. That's the first email I'd send."</p><p>The file is dated for Nov 19. On the replay, everyone looks a few weeks quieter; the method is the same.</p></aside>
 </section>
 
 <!-- 14 -->
 <section class="slide dark">
-  <p class="kicker">Part 3</p>
-  <h1 style="margin-top:20px">Send a win-back email</h1>
+  <h1>Send a win-back email</h1>
   <div class="wordmark">bolt.new</div><div class="folio"></div>
   <aside class="notes"><p>Two seconds, then advance.</p></aside>
 </section>
 
 <!-- 15 -->
-<section class="slide">
+<section class="slide roomy">
   <h2>Connect Resend in three steps</h2>
   <div class="cols">
     <ol class="steps">
@@ -417,13 +496,12 @@ Use the site's fonts and colors. No gradients, cards, or emoji.</pre>
 <section class="slide">
   <h2>Two details make it personal</h2>
   <div class="cols">
-    <div class="email">
+    <div class="email rl">
       <div class="meta"><div>To: rosa.delgado@example.com</div><div>Subject: Rosa, it's been a while</div></div>
       <div class="bodytext">
         <p>Hi <span class="fill">Rosa</span>,</p>
-        <p>It's been <span class="fill">7</span> weeks since your last <span class="fill">Ethiopia Guji</span>. We just roasted a fresh batch, and I'd love to set one aside for you.</p>
-        <p>Just reply to this email and I'll have it ready.</p>
-        <p>Thanks for being a regular,<br>Ridgeline Coffee Roasters</p>
+        <p>It's been <span class="fill">6</span> weeks since your last <span class="fill">Ethiopia Guji, 12 oz</span>. We just roasted a fresh batch, and I'd love to set one aside for you. Just reply to this email.</p>
+        <p>Ridgeline Coffee Roasters</p>
       </div>
     </div>
     <div class="body">
@@ -437,14 +515,14 @@ Use the site's fonts and colors. No gradients, cards, or emoji.</pre>
 </section>
 
 <!-- 18 -->
-<section class="slide">
+<section class="slide roomy">
   <h2>Test mode: every email comes to you</h2>
   <div class="cols">
     <div class="body">
       <p>Until you verify your own domain, Resend only delivers to the email your account uses. So today, every send lands in your inbox, with a line saying who it was meant for.</p>
       <p style="margin-top:22px">The sample customers use example.com addresses, which never receive mail.</p>
     </div>
-    <div class="email">
+    <div class="email rl">
       <div class="meta"><div>From: Ridgeline Coffee Roasters &lt;onboarding@resend.dev&gt;</div><div>Delivered to: you</div></div>
       <div class="bodytext"><p class="testline">Test mode: this email would have gone to rosa.delgado@example.com</p><p>Hi Rosa,</p><p class="small">...</p></div>
     </div>
@@ -458,12 +536,12 @@ Use the site's fonts and colors. No gradients, cards, or emoji.</pre>
   <h2>Send it, then check your inbox</h2>
   <div class="cols">
     <ol class="steps">
-      <li><span>Click <b>Send win-back email</b> on Rosa Delgado.</span></li>
+      <li><span>Click <b>Send win-back email</b> on Marcus Hill.</span></li>
       <li><span>Read the preview: To, Delivered to, subject, and body.</span></li>
       <li><span>Press <b>Send</b>. The row changes to Emailed, with today's date.</span></li>
       <li><span>Open your inbox. Look for Ridgeline Coffee Roasters.</span></li>
     </ol>
-    <div class="panel"><h3>Checkpoint</h3><p class="body" style="font-size:24px">Your first win-back email, sent from your own project through Resend. Post "landed" in chat.</p><p class="small" style="margin-top:20px;font-size:19px">Nothing after a minute? Check spam: test emails from onboarding@resend.dev often land there until you verify a domain in Part 5.</p></div>
+    <div class="panel"><h3>Checkpoint</h3><p class="body" style="font-size:24px">Your first win-back email, sent from your own project through Resend. Ever had a regular disappear? Tell us in chat.</p><p class="small" style="margin-top:20px;font-size:19px">Nothing after a minute? Check spam: test emails from onboarding@resend.dev often land there until you verify a domain later in the session.</p></div>
   </div>
   <div class="wordmark">bolt.new</div><div class="folio"></div>
   <aside class="notes"><p>Do it live on Backup A, or Backup B if A isn't ready. Show the email in spam on purpose: "this is why Part 5 exists." Your Gmail filter keeps it findable.</p><p class="say">"That's a real email, from your own app, through a real email service. Connecting a service like this is the step most people never get to."</p></aside>
@@ -494,19 +572,17 @@ Use the site's fonts and colors. No gradients, cards, or emoji.</pre>
 
 <!-- 21 -->
 <section class="slide dark">
-  <p class="kicker">Part 4</p>
-  <h1 style="margin-top:20px">Is your outreach working?</h1>
+  <h1>Is your outreach working?</h1>
   <div class="wordmark">bolt.new</div><div class="folio"></div>
   <aside class="notes"><p>Two seconds, then advance.</p></aside>
 </section>
 
 <!-- 22 -->
-<section class="slide">
+<section class="slide roomy">
   <h2>One number: your repeat-customer rate</h2>
   <div class="cols">
     <div>
       <p class="lead">Of the customers who ordered this month, how many had ordered before?</p>
-      <p class="body" style="margin-top:30px">11 of the 17 customers who ordered in the last 30 days were returning customers.</p>
     </div>
     <div class="panel"><p class="bignum">65%</p><p class="body" style="margin-top:12px">11 of 17 customers had ordered before</p><p class="rust" style="font-size:24px;margin-top:8px">Down 14 pts</p></div>
   </div>
@@ -531,7 +607,7 @@ Use the site's fonts and colors. No gradients, cards, or emoji.</pre>
 </section>
 
 <!-- 24 -->
-<section class="slide">
+<section class="slide roomy">
   <h2>Make the call next month</h2>
   <table class="ledger" style="font-size:23px">
     <tr><th>What you see</th><th>What it means</th><th>Your move</th></tr>
@@ -546,7 +622,7 @@ Use the site's fonts and colors. No gradients, cards, or emoji.</pre>
 </section>
 
 <!-- 25 -->
-<section class="slide">
+<section class="slide roomy">
   <h2>Go live: send from your own domain</h2>
   <div class="cols">
     <ol class="steps">
@@ -555,7 +631,13 @@ Use the site's fonts and colors. No gradients, cards, or emoji.</pre>
       <li><span>Add them where your domain lives: Bolt.new Settings &gt; Cloud &gt; Custom domains, or your registrar.</span></li>
       <li><span>Wait for <b>Verified</b>, usually 10 to 20 minutes, sometimes a few hours. Then run Prompt 4.</span></li>
     </ol>
-    <div class="panel"><h3>Why it matters</h3><p class="body" style="font-size:23px">A verified domain proves the email is really from you, so it reaches inboxes instead of spam, and test mode can turn off.</p></div>
+    <div>
+      <div class="panel"><h3>Why it matters</h3><p class="body">A verified domain proves the email is really from you, so it reaches inboxes instead of spam, and test mode can turn off.</p></div>
+      <div class="domains" aria-label="Example Domains row in Resend">
+        <div class="domains-head"><span>Domain</span><span>Status</span></div>
+        <div class="domains-row"><span>yourdomain.com</span><span class="verified">Verified</span></div>
+      </div>
+    </div>
   </div>
   <div class="wordmark">bolt.new</div><div class="folio"></div>
   <aside class="notes"><p>Show your Resend Domains page with the domain already Verified. You set this up before the session; never wait on DNS live.</p><p class="say">"Today every email came to you, and it landed in spam. A verified domain fixes both: the same button reaches real customers, from an address that proves it's you."</p></aside>
@@ -582,7 +664,7 @@ Add a footer to every email with my business address, [BUSINESS ADDRESS], and "P
 </section>
 
 <!-- 27 -->
-<section class="slide">
+<section class="slide roomy">
   <h2>Before you email real customers</h2>
   <ol class="steps" style="max-width:1250px">
     <li><span>Your domain shows Verified in Resend.</span></li>
@@ -597,7 +679,7 @@ Add a footer to every email with my business address, [BUSINESS ADDRESS], and "P
 <!-- 28 -->
 <section class="slide">
   <h2 style="margin-bottom:24px">Bonus prompts for after the session</h2>
-  <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:28px;flex:1;min-height:0">
+  <div class="bonus-grid">
     <div class="prompt-box"><div class="prompt-head"><span>See who came back</span><button class="copy" data-copy="bc">Copy prompt</button></div><pre class="prompt big" id="bc">Add a "Came back" list under Gone quiet: customers marked Emailed in the last 60 days, and whether they've ordered since. Above it, a line like "4 of 9 emailed customers came back."</pre></div>
     <div class="prompt-box"><div class="prompt-head"><span>Before they go quiet</span><button class="copy" data-copy="bd">Copy prompt</button></div><pre class="prompt big" id="bd">Add a "Due soon" list above Gone quiet: regulars whose usual gap between orders has passed but who aren't quiet yet, with the date they'd normally order.</pre></div>
     <div class="prompt-box"><div class="prompt-head"><span>Phone check</span><button class="copy" data-copy="bp">Copy prompt</button></div><pre class="prompt big" id="bp">Make every screen work on a phone 375 pixels wide. Fix anything cut off, overlapping, too small to tap, or scrolling sideways. Stack Gone quiet above the repeat-customer rate.</pre></div>
@@ -645,21 +727,20 @@ Add a footer to every email with my business address, [BUSINESS ADDRESS], and "P
 </div></div>
 <div id="progress"></div>
 <div id="notes" aria-live="polite"></div>
-<div id="nav"><button class="navbtn" id="prev" aria-label="Previous">Back</button><span id="count" class="navbtn" style="cursor:default"></span><button class="navbtn" id="next" aria-label="Next">Next</button></div>
 <script>
 (function(){
   var slides=[].slice.call(document.querySelectorAll('.slide'));
-  var stage=document.getElementById('stage'), notes=document.getElementById('notes'), count=document.getElementById('count');
+  var stage=document.getElementById('stage'), notes=document.getElementById('notes');
   var i=0;
   slides.forEach(function(s,k){var f=s.querySelector('.folio');if(f)f.textContent=(k+1)+' / '+slides.length;});
-  function fit(){var s=Math.min(window.innerWidth/1600,window.innerHeight/900);stage.style.transform='translate(-50%,-50%) scale('+s+')';}
+  var narrow=window.matchMedia('(max-width: 799px)');
+  function fit(){if(narrow.matches){stage.style.transform='';return;}var s=Math.min(window.innerWidth/1600,window.innerHeight/900);stage.style.transform='translate(-50%,-50%) scale('+s+')';}
   function steps(){return [].slice.call(slides[i].querySelectorAll('.step'));}
   function show(n,revealAll){
     i=Math.max(0,Math.min(slides.length-1,n));
     slides.forEach(function(s,k){s.classList.toggle('active',k===i);});
     steps().forEach(function(e){e.classList.toggle('on',!!revealAll);});
     var a=slides[i].querySelector('aside.notes'); notes.innerHTML=a?a.innerHTML:'';
-    count.textContent=(i+1)+' / '+slides.length;
     document.getElementById('progress').style.width=((i+1)/slides.length*100)+'%';
     if(location.hash!=='#'+(i+1)) history.replaceState(null,'','#'+(i+1));
   }
@@ -672,7 +753,6 @@ Add a footer to every email with my business address, [BUSINESS ADDRESS], and "P
     else if(e.key==='n'||e.key==='N'){notes.classList.toggle('show');}
     else if(e.key==='f'||e.key==='F'){if(!document.fullscreenElement){document.documentElement.requestFullscreen&&document.documentElement.requestFullscreen();}else{document.exitFullscreen();}}
   });
-  document.getElementById('next').onclick=next; document.getElementById('prev').onclick=prev;
   document.querySelectorAll('button.copy').forEach(function(b){
     b.addEventListener('click',function(){
       var t=document.getElementById(b.getAttribute('data-copy')).textContent;
@@ -684,6 +764,8 @@ Add a footer to every email with my business address, [BUSINESS ADDRESS], and "P
   window.addEventListener('resize',fit); fit();
   window.addEventListener('hashchange',function(){var n=parseInt(location.hash.slice(1),10);if(!isNaN(n)&&n-1!==i)show(n-1,false);});
   var h=parseInt(location.hash.slice(1),10); show(isNaN(h)?0:h-1,false);
+  if(narrow.matches&&!isNaN(h)&&slides[h-1])slides[h-1].scrollIntoView();
+  window.addEventListener('hashchange',function(){var n=parseInt(location.hash.slice(1),10);if(narrow.matches&&slides[n-1])slides[n-1].scrollIntoView();});
 })();
 </script>
 </body>
