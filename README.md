@@ -1,6 +1,6 @@
 # Win-back dashboard workshop deck (Nov 19)
 
-Single-file HTML deck. Push this folder to GitHub, then import the repo into Bolt.new and publish.
+Single-file HTML deck in the Bolt.new workshop theme (Schibsted Grotesk, JetBrains Mono, blue #1488FC). Push this folder to GitHub, then import the repo into Bolt.new and publish.
 
 - Right arrow, Space, or Page Down: next (reveals steps first)
 - Left arrow: back

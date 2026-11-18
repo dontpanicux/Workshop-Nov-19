@@ -7,101 +7,119 @@
 <meta name="description" content="Live Bolt.new workshop: build a private dashboard that flags regulars who stopped coming back and sends each one a personal email through Resend.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=Young+Serif&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 :root{
-  --paper:#F4F5F1; --surface:#FFFFFF; --ink:#18211D; --muted:#57625C; --rule:#D9DED7;
-  --spruce:#2F5D50; --spruce-soft:#E3ECE8; --rust:#9C3D2E; --code:#1E2723; --code-ink:#E8EDE9;
-  --serif:"Young Serif", Georgia, "Times New Roman", serif;
-  --sans:"IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
-  --mono:"IBM Plex Mono", ui-monospace, Menlo, Consolas, monospace;
+  --ink:#0C0C0F; --ground:#F3F0F5; --pale:#F9F6F9; --surface:#FFFEFE; --rule:#D6D5DE; --muted:#525258;
+  --blue:#1488FC; --blue-soft:#1488FC1A; --deep:#0000A3; --deep-ink:#000128;
+  --pass:#0E7A4E; --pass-bg:#E3F4EC; --miss:#9A4A00; --code:#0C0C0F; --code-ink:#E9E7F0;
+  --sans:"Schibsted Grotesk", Inter, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --mono:"JetBrains Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+  --ease:cubic-bezier(.2,.7,.2,1); --radius:8px;
 }
 *{box-sizing:border-box}
-html,body{margin:0;height:100%;background:#0f1412;overflow:hidden}
-body{font-family:var(--sans);color:var(--ink);font-variant-numeric:tabular-nums}
-#viewport{position:fixed;inset:0;display:grid;place-items:center}
-#stage{width:1600px;height:900px;position:relative;transform-origin:center center}
-.slide{position:absolute;inset:0;background:var(--paper);padding:84px 112px 96px;display:none;flex-direction:column;overflow:hidden}
+html,body{margin:0;height:100%;background:#08081a;overflow:hidden}
+body{font-family:var(--sans);color:var(--ink);-webkit-font-smoothing:antialiased}
+#viewport{position:fixed;inset:0;overflow:hidden}
+#stage{width:1600px;height:900px;position:absolute;left:50%;top:50%;transform-origin:center center}
+.slide{position:absolute;inset:0;background:radial-gradient(750px 430px at 100% 0%,#1488fc29,#1488fc00 70%),var(--ground);padding:84px 107px 110px;display:none;flex-direction:column;overflow:hidden}
 .slide.active{display:flex}
-.slide.dark{background:var(--spruce);color:#F4F5F1}
-h1,h2{font-family:var(--serif);font-weight:400;margin:0;letter-spacing:-0.01em}
+.slide.dark{background:var(--deep-ink);color:var(--pale);justify-content:center;isolation:isolate}
+.slide.dark::before{content:"";position:absolute;inset:-8%;background:url(assets/bolt-glow.jpg) 85% 30%/cover no-repeat;z-index:-2;transform:scale(1.02)}
+.slide.dark.active::before{animation:drift 24s ease-in-out infinite alternate}
+.slide.dark::after{content:"";position:absolute;inset:0;z-index:-1;background:linear-gradient(90deg,#000128eb,#000128c7 45%,#00012859 75%,#00012826)}
+@keyframes drift{from{transform:scale(1.02)}to{transform:translate3d(-3%,2%,0) scale(1.08)}}
+h1,h2{font-family:var(--sans);font-weight:600;margin:0}
+h1{font-size:110px;line-height:1;letter-spacing:-.03em;max-width:1300px}
+h2{font-size:68px;line-height:1.05;letter-spacing:-.028em;max-width:1350px;margin-bottom:40px}
 h1,h2,h3{text-wrap:balance}
-h1{font-size:96px;line-height:1.02;max-width:1150px}
-h2{font-size:58px;line-height:1.08;max-width:1250px;margin-bottom:40px}
-h3{font-size:26px;font-weight:600;margin:0 0 10px}
+p,li,td{text-wrap:pretty}
+h3{font-size:24px;font-weight:600;margin:0 0 10px;color:var(--blue)}
 p{margin:0}
-.lead{font-size:34px;line-height:1.35;color:var(--muted);max-width:1100px}
-.dark .lead{color:#CFDCD6}
+.lead{font-size:33px;line-height:1.3;color:var(--muted);max-width:1150px}
+.dark .lead{color:#D6D5DE}
+.kicker{font-size:24px!important;font-weight:500;color:var(--blue)}
+.dark .kicker{color:#9CCBFF}
+.title-meta{font-size:26px;color:#D6D5DE;margin-top:40px}
 .small{font-size:22px;color:var(--muted);line-height:1.45}
-.foot{position:absolute;left:112px;right:112px;bottom:36px;display:flex;justify-content:space-between;font-size:18px;color:var(--muted)}
-.dark .foot{color:#B9CCC4}
-.cols{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:start}
-.cols-62{display:grid;grid-template-columns:1.6fr 1fr;gap:56px;align-items:start}
-.panel{background:var(--surface);border:1px solid var(--rule);border-radius:12px;padding:32px 36px}
+.wordmark{position:absolute;left:107px;bottom:46px;width:118px;height:33px;background:url(assets/boltnew-wordmark-dark.png) left center/contain no-repeat;font-size:0;color:transparent}
+.dark .wordmark{background-image:url(assets/boltnew-wordmark-light.png)}
+.folio{position:absolute;right:107px;bottom:50px;font-size:19px;color:var(--muted)}
+.dark .folio{color:var(--deep-ink);background:#fffefed9;padding:3px 12px;border-radius:999px}
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:start}
+.cols-62{display:grid;grid-template-columns:1.6fr 1fr;gap:48px;align-items:start}
+.panel{background:var(--surface);border:1px solid var(--rule);border-radius:var(--radius);padding:34px 40px}
 .panel p+p{margin-top:14px}
 .body{font-size:26px;line-height:1.45}
+.panel .body,.cols>.body p,.cols>div>.body{color:var(--muted)}
+.body b,.body h3+p b{color:var(--ink)}
 .body li{margin-bottom:14px}
 ol.steps{list-style:none;padding:0;margin:0;counter-reset:s}
-ol.steps li{counter-increment:s;display:grid;grid-template-columns:64px 1fr;gap:20px;font-size:28px;line-height:1.4;margin-bottom:26px}
-ol.steps li::before{content:counter(s);font-family:var(--serif);font-size:40px;color:var(--spruce);line-height:1}
-.step{opacity:0;transition:opacity .25s}
-.step.on{opacity:1}
-@media (prefers-reduced-motion:reduce){.step{transition:none}}
-table.ledger{width:100%;border-collapse:collapse;font-size:24px}
-table.ledger th{font-weight:600;font-size:18px;color:var(--muted);text-align:left;padding:10px 14px;border-bottom:1px solid var(--rule)}
-table.ledger td{padding:13px 14px;border-bottom:1px solid var(--rule);vertical-align:top}
-table.ledger td.num,table.ledger th.num{text-align:right}
-.rust{color:var(--rust);font-weight:600}
-.tag{display:inline-block;background:var(--spruce-soft);color:var(--spruce);font-size:16px;font-weight:600;padding:4px 10px;border-radius:6px;vertical-align:middle}
-.btn{display:inline-block;background:var(--spruce);color:#fff;border-radius:8px;padding:9px 16px;font-size:18px;font-weight:600;white-space:nowrap}
-.btn.ghost{background:transparent;color:var(--spruce);border:1px solid var(--spruce)}
-/* order strip: the visual signature */
+ol.steps li{counter-increment:s;display:grid;grid-template-columns:48px 1fr;gap:22px;align-items:start;font-size:28px;line-height:1.35;margin-bottom:24px}
+ol.steps li::before{content:counter(s);width:48px;height:48px;border-radius:50%;background:var(--surface);border:1px solid var(--rule);display:grid;place-items:center;font-size:22px;font-weight:600;color:var(--blue);margin-top:-6px}
+.step{opacity:0;transform:translateY(15px);transition:opacity .5s var(--ease),transform .5s var(--ease)}
+.step.on{opacity:1;transform:none}
+table.ledger{width:100%;border-collapse:separate;border-spacing:0;background:var(--surface);border:1px solid var(--rule);border-radius:var(--radius);overflow:hidden;font-size:24px}
+table.ledger th{font-weight:600;font-size:18px;color:var(--muted);background:var(--pale);text-align:left;padding:13px 22px;border-bottom:1px solid var(--rule)}
+table.ledger td{padding:14px 22px;border-bottom:1px solid var(--rule);vertical-align:top}
+table.ledger tr:last-child td{border-bottom:0}
+table.ledger td.num,table.ledger th.num{text-align:right;font-variant-numeric:tabular-nums}
+.panel table.ledger{border:0;border-radius:0;background:transparent}
+.panel table.ledger th{background:transparent;padding-left:12px;padding-right:12px}
+.panel table.ledger td{padding-left:12px;padding-right:12px}
+.rust{color:var(--miss);font-weight:600}
+.tag{display:inline-block;background:var(--blue-soft);color:var(--blue);font-family:var(--sans);font-size:16px;font-weight:600;padding:5px 12px;border-radius:999px;vertical-align:middle}
+.btn{display:inline-block;background:var(--blue);color:#fff;border-radius:8px;padding:9px 16px;font-size:18px;font-weight:600;white-space:nowrap}
 .strip{display:flex;gap:22px;align-items:center;margin:40px 0}
-.strip i{width:34px;height:34px;border-radius:50%;background:var(--spruce);display:block}
-.strip i.gap{background:transparent;border:3px dashed var(--rust)}
-.dark .strip i{background:#F4F5F1}
-.dark .strip i.gap{border-color:#F0B9AC;background:transparent}
+.strip i{width:34px;height:34px;border-radius:50%;background:var(--blue);display:block}
+.strip i.gap{background:transparent;border:3px dashed var(--miss)}
+.dark .strip i{background:#F9F6F9}
+.dark .strip i.gap{border-color:#9CCBFF;background:transparent}
 .strip.big i{width:52px;height:52px}
 .strip-label{font-size:22px;color:var(--muted)}
-.dark .strip-label{color:#CFDCD6}
-/* prompts */
+.dark .strip-label{color:#D6D5DE}
 .prompt-wrap{display:grid;grid-template-columns:1fr 360px;gap:40px;flex:1;min-height:0}
-.prompt-box{display:flex;flex-direction:column;min-height:0}
-.prompt-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;font-size:20px;color:var(--muted)}
-pre.prompt.big{font-size:19px;line-height:1.6}
-pre.prompt{flex:1;margin:0;background:var(--code);color:var(--code-ink);font-family:var(--mono);font-size:15px;line-height:1.55;padding:24px 28px;border-radius:12px;overflow:auto;white-space:pre-wrap;min-height:0}
-button.copy{font:600 18px var(--sans);background:var(--spruce);color:#fff;border:0;border-radius:8px;padding:10px 18px;cursor:pointer;min-height:44px}
-button.copy:focus-visible,.navbtn:focus-visible{outline:3px solid #F0B9AC;outline-offset:2px}
-.side-notes .panel{padding:24px 26px;margin-bottom:18px}
-.side-notes h3{font-size:21px}
+.prompt-box{display:flex;flex-direction:column;min-height:0;background:var(--code);border-radius:var(--radius);box-shadow:0 0 0 1px #26262e,0 20px 50px -24px #1488fc8c;overflow:hidden}
+.prompt-head{display:flex;justify-content:space-between;align-items:center;gap:16px;padding:14px 18px 14px 28px;border-bottom:1px solid #26262E;font-size:18px;font-weight:600;color:#9CCBFF}
+pre.prompt.big{font-size:18px;line-height:1.55}
+pre.prompt{flex:1;margin:0;background:transparent;color:var(--code-ink);font-family:var(--mono);font-size:15px;line-height:1.55;padding:22px 28px 26px;overflow:auto;white-space:pre-wrap;min-height:0}
+pre.prompt::-webkit-scrollbar{width:10px}
+pre.prompt::-webkit-scrollbar-thumb{background:#33333d;border-radius:5px}
+button.copy{font:600 18px var(--sans);background:var(--blue);color:#fff;border:0;border-radius:10px;padding:0 22px;cursor:pointer;min-height:44px;white-space:nowrap;transition:background .2s var(--ease),transform .15s var(--ease)}
+button.copy:hover{background:#0B76E3}
+button.copy:active{transform:scale(.97)}
+button.copy.copied{background:var(--pass)}
+button.copy:focus-visible,.navbtn:focus-visible{outline:3px solid #9CCBFF;outline-offset:3px}
+.side-notes .panel{padding:22px 26px;margin-bottom:18px}
+.side-notes h3{font-size:20px;margin-bottom:6px}
 .side-notes p{font-size:19px;line-height:1.45;color:var(--muted)}
-/* bars */
 .bars{display:flex;align-items:flex-end;gap:26px;height:300px;margin-top:20px}
-.bar{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%;font-size:20px}
+.bar{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%;font-size:22px}
 .bar b{font-weight:600;margin-bottom:8px}
-.bar span{display:block;width:100%;background:var(--spruce);border-radius:6px 6px 0 0}
-.bar.now span{background:var(--rust)}
+.bar span{display:block;width:100%;background:var(--blue);border-radius:6px 6px 0 0}
+.bar.now span{background:var(--miss)}
+.bar.now b{color:var(--miss)}
 .bar small{margin-top:10px;color:var(--muted);font-size:17px;white-space:nowrap}
-.bignum{font-family:var(--serif);font-size:150px;line-height:1}
-/* email mock */
-.email{background:var(--surface);border:1px solid var(--rule);border-radius:12px;font-size:23px;line-height:1.5;overflow:hidden}
-.email .meta{padding:18px 28px;border-bottom:1px solid var(--rule);font-size:19px;color:var(--muted)}
+.bignum{font-family:var(--sans);font-size:150px;font-weight:600;letter-spacing:-.04em;line-height:1;color:var(--deep)}
+.email{background:var(--surface);border:1px solid var(--rule);border-radius:var(--radius);font-size:23px;line-height:1.5;overflow:hidden}
+.email .meta{padding:16px 28px;border-bottom:1px solid var(--rule);background:var(--pale);font-size:19px;color:var(--muted)}
 .email .meta div+div{margin-top:4px}
 .email .bodytext{padding:24px 28px}
 .email .bodytext p+p{margin-top:14px}
-.email .testline{font-size:17px;color:#7A847E;margin-bottom:16px}
-.fill{background:var(--spruce-soft);color:var(--spruce);border-radius:4px;padding:0 6px;font-weight:600}
-/* secrets mock */
-.field{border:1px solid var(--rule);border-radius:8px;padding:12px 16px;font-family:var(--mono);font-size:20px;background:#FBFBF9;margin:8px 0 18px}
-/* notes overlay */
-#notes{position:fixed;left:0;right:0;bottom:0;max-height:42vh;overflow:auto;background:#111815;color:#E6ECE8;font:17px/1.55 var(--sans);padding:20px 28px 28px;display:none;border-top:3px solid var(--spruce);z-index:5}
+.email .testline{font-size:17px;color:#7C7C90;margin-bottom:16px}
+.fill{background:var(--blue-soft);color:var(--blue);border-radius:4px;padding:0 6px;font-weight:600}
+.field{border:1px solid var(--rule);border-radius:8px;padding:12px 16px;font-family:var(--mono);font-size:19px;background:var(--pale);margin:8px 0 18px}
+#notes{position:fixed;left:24px;right:24px;bottom:24px;max-height:38vh;overflow:auto;background:#0c0c0ff0;color:#E9E7F0;border:1px solid #33333D;border-radius:12px;font:17px/1.55 var(--sans);padding:20px 28px;display:none;z-index:20}
 #notes.show{display:block}
 #notes p{margin:0 0 10px;max-width:1100px}
 #notes .say{color:#fff}
 .slide aside.notes{display:none}
-#hint{position:fixed;top:10px;left:50%;transform:translateX(-50%);font:14px var(--sans);color:#9fb0a8;z-index:4}
-#nav{position:fixed;right:16px;bottom:14px;display:flex;gap:8px;z-index:6}
-.navbtn{font:600 15px var(--sans);background:#1E2723;color:#E6ECE8;border:1px solid #33413b;border-radius:6px;padding:8px 12px;cursor:pointer;min-width:44px;min-height:40px}
+#progress{position:fixed;left:0;top:0;height:4px;background:var(--blue);width:0;transition:width .35s var(--ease);z-index:10}
+#hint{position:fixed;right:20px;top:14px;font:13px var(--sans);color:#7C7C90;z-index:4;user-select:none}
+#nav{position:fixed;right:16px;bottom:14px;display:flex;gap:8px;z-index:6;opacity:.35;transition:opacity .2s}
+#nav:hover{opacity:1}
+.navbtn{font:600 15px var(--sans);background:#0C0C0F;color:#E9E7F0;border:1px solid #33333D;border-radius:8px;padding:8px 12px;cursor:pointer;min-width:44px;min-height:40px}
+@media (prefers-reduced-motion:reduce){.slide.dark.active::before{animation:none}.step,button.copy{transition:none}}
 </style>
 </head>
 <body>
@@ -110,12 +128,13 @@ button.copy:focus-visible,.navbtn:focus-visible{outline:3px solid #F0B9AC;outlin
 
 <!-- 1 -->
 <section class="slide dark">
-  <p class="lead" style="font-size:26px">Live workshop for Bolt.new customers</p>
+  <p class="kicker">Live workshop for Bolt.new customers</p>
   <h1 style="margin-top:28px">Losing regulars without noticing?</h1>
   <p class="lead" style="margin-top:24px">Build a dashboard that notices for you, and sends a personal email in one click.</p>
   <div class="strip big" aria-label="Six orders, then three missed"><i></i><i></i><i></i><i></i><i></i><i></i><i class="gap"></i><i class="gap"></i><i class="gap"></i></div>
   <p class="strip-label">Six orders, four weeks apart. Then nothing.</p>
-  <div class="foot"><span>Thursday, Nov 19, 10:30 am PT. Hosted by Blake Arnsdorff</span><span>bolt.new</span></div>
+  <p class="title-meta">Thursday, Nov 19, 10:30 am PT. Hosted by Blake Arnsdorff</p>
+  <div class="wordmark">bolt.new</div><div class="folio"></div>
   <aside class="notes"><p>Live at 10:28. Hold here while people join.</p><p class="say">"Welcome in. Every business has regulars who quietly stop showing up. Nobody tells you they left. Today you'll build something that notices for you."</p><p>Ask: drop what you sell in the chat, and how often your customers come back.</p></aside>
 </section>
 
@@ -131,7 +150,7 @@ button.copy:focus-visible,.navbtn:focus-visible{outline:3px solid #F0B9AC;outlin
     <li style="margin-bottom:16px"><span>Go live from your own email domain <span class="small">&nbsp;8 min</span></span></li>
   </ol>
   <p class="small" style="margin-top:12px">Bring a free Resend account, signed up with the inbox you want test emails sent to. We'll provide the sample data.</p>
-  <div class="foot"><span>Build a win-back dashboard</span><span>bolt.new</span></div>
+  <div class="wordmark">bolt.new</div><div class="folio"></div>
   <aside class="notes"><p class="say">"You'll leave with a dashboard that shows who's slipping away, a button that emails them, and one number that tells you whether it's working."</p><p>Drop the Resend sign-up link in chat now: resend.com. Ask the co-host to watch for people stuck on sign-up.</p></aside>
 </section>
 
@@ -140,7 +159,7 @@ button.copy:focus-visible,.navbtn:focus-visible{outline:3px solid #F0B9AC;outlin
   <h2>A shop website, and a dashboard that notices</h2>
   <div class="cols-62">
     <div class="panel" style="padding:24px 28px">
-      <p style="font-family:var(--serif);font-size:30px">Ridgeline Coffee <span class="tag">Sample data</span></p>
+      <p style="font-size:30px;font-weight:600;letter-spacing:-.02em">Ridgeline Coffee <span class="tag">Sample data</span></p>
       <p class="small" style="font-size:18px;margin:4px 0 16px">46 customers, 21 regulars, 217 orders</p>
       <p style="font-size:18px;font-weight:600;color:var(--muted)">7 regulars haven't ordered in 6 weeks</p>
       <table class="ledger" style="font-size:20px"><tr><td>Marcus Hill</td><td>House Blend</td><td class="num rust">9 wk</td><td class="num"><span class="btn" style="font-size:15px;padding:6px 12px">Send win-back email</span></td></tr><tr><td>Rosa Delgado</td><td>Ethiopia Guji</td><td class="num rust">7 wk</td><td class="num"><span class="btn" style="font-size:15px;padding:6px 12px">Send win-back email</span></td></tr><tr><td>Leila Farah</td><td>House Blend</td><td class="num rust">6 wk</td><td class="num"><span class="btn" style="font-size:15px;padding:6px 12px">Send win-back email</span></td></tr></table>
@@ -151,7 +170,7 @@ button.copy:focus-visible,.navbtn:focus-visible{outline:3px solid #F0B9AC;outlin
       <li class="step"><span><b>One number.</b> Your repeat-customer rate, month to month.</span></li>
     </ol>
   </div>
-  <div class="foot"><span>Build a win-back dashboard</span><span>bolt.new</span></div>
+  <div class="wordmark">bolt.new</div><div class="folio"></div>
   <aside class="notes"><p>Click three times to light each part.</p><p class="say">"Nothing here is new data. You already have every order. The dashboard just does the noticing."</p></aside>
 </section>
 
@@ -177,6 +196,7 @@ Do not build: payments, a cart, or logins.</pre>
       <div class="panel"><h3>Your business</h3><p>Swap in your own products, prices, and hours.</p></div>
     </div>
   </div>
+  <div class="folio"></div>
   <aside class="notes"><p>Paste Prompt 0 live, press Enter, and teach slides 5 to 7 while it builds (2 to 4 min).</p><p class="say">"First, the shop window. Ridgeline needs a site where regulars can reserve a bag. Every reservation becomes a row we can count later."</p><p>Backup: if it stalls past 5 minutes, open Backup A, which has the site already built.</p></aside>
 </section>
 
@@ -188,7 +208,7 @@ Do not build: payments, a cart, or logins.</pre>
     <div class="panel body"><h3>A regular who went quiet</h3><p>Knows your product, your prices, and your name. Often they just got busy.</p></div>
   </div>
   <p class="lead" style="margin-top:48px">The hard part isn't the email. It's noticing in time.</p>
-  <div class="foot"><span>Build a win-back dashboard</span><span>bolt.new</span></div>
+  <div class="wordmark">bolt.new</div><div class="folio"></div>
   <aside class="notes"><p class="say">"Most owners find out a regular left months later, if ever. By then they've found someone else. A short, personal note in the first few weeks is the cheapest marketing you'll ever send."</p></aside>
 </section>
 
@@ -207,7 +227,7 @@ Do not build: payments, a cart, or logins.</pre>
       <div class="strip" style="margin:14px 0 0"><i></i><i class="gap" style="border-color:var(--rule)"></i></div>
     </div>
   </div>
-  <div class="foot"><span>Build a win-back dashboard</span><span>bolt.new</span></div>
+  <div class="wordmark">bolt.new</div><div class="folio"></div>
   <aside class="notes"><p class="say">"Two orders is the line. Someone who came once and never again is a different problem with a different fix."</p><p>In the sample data: 21 regulars, 25 one-time buyers.</p></aside>
 </section>
 
@@ -224,7 +244,7 @@ Do not build: payments, a cart, or logins.</pre>
     <tr><td>Detailing or seasonal service</td><td class="num">12 weeks</td><td class="num">18 to 24 weeks</td></tr>
   </table>
   <p class="small" style="margin-top:26px">Rules of thumb. Your own orders beat this table: find a few regulars, count the weeks between their visits, and double it.</p>
-  <div class="foot"><span>Build a win-back dashboard</span><span>bolt.new</span></div>
+  <div class="wordmark">bolt.new</div><div class="folio"></div>
   <aside class="notes"><p class="say">"Too short and you're emailing people who were about to come back anyway. Too long and they've already found someone else. Start at one and a half to two times your usual gap."</p><p>Ask chat: what's your usual gap, and what window would you pick? Read two answers.</p></aside>
 </section>
 
@@ -233,7 +253,7 @@ Do not build: payments, a cart, or logins.</pre>
   <h2>Meet today's example</h2>
   <div class="cols">
     <div class="body">
-      <p style="font-family:var(--serif);font-size:40px;margin-bottom:18px">Ridgeline Coffee Roasters</p>
+      <p style="font-size:40px;font-weight:600;letter-spacing:-.02em;margin-bottom:18px">Ridgeline Coffee Roasters</p>
       <p>A small-batch roaster selling 12 oz bags online and at a Saturday market. Most regulars reorder about every four weeks.</p>
       <p style="margin-top:18px">The owner noticed market Saturdays felt thinner but couldn't say who'd stopped coming. Quiet window: <b>6 weeks</b>.</p>
     </div>
@@ -242,15 +262,15 @@ Do not build: payments, a cart, or logins.</pre>
       <p class="body" style="font-size:23px">Same steps. The prompts have blanks for your business, and everyone imports the same sample customers, so you can follow along today and swap in your own orders later.</p>
     </div>
   </div>
-  <div class="foot"><span>Build a win-back dashboard</span><span>bolt.new</span></div>
+  <div class="wordmark">bolt.new</div><div class="folio"></div>
   <aside class="notes"><p>Publish the site from Prompt 0, open the live link, and reserve a bag as Maya Chen, maya.chen@example.com. Your own email would add a new customer and move the numbers.</p><p class="say">"Fictional business, real pattern. Online shops and wellness businesses are among the biggest groups of Bolt.new customers who sell to repeat customers."</p></aside>
 </section>
 
 <!-- 9 -->
 <section class="slide dark">
-  <p class="lead" style="font-size:26px">Part 2</p>
+  <p class="kicker">Part 2</p>
   <h1 style="margin-top:20px">Build the dashboard</h1>
-  <div class="foot"><span></span><span>bolt.new</span></div>
+  <div class="wordmark">bolt.new</div><div class="folio"></div>
   <aside class="notes"><p>Switch to Bolt.new: a fresh tab with the prompt box ready.</p></aside>
 </section>
 
@@ -260,7 +280,7 @@ Do not build: payments, a cart, or logins.</pre>
   <div class="prompt-wrap">
     <div class="prompt-box">
       <div class="prompt-head"><span>Paste into the same project as the site. Replace [YOUR EMAIL]</span><button class="copy" data-copy="p1">Copy prompt</button></div>
-      <pre class="prompt big" id="p1" style="font-size:16.5px;line-height:1.5">Add a private win-back dashboard at /dashboard. Don't link it from the site. Regulars buy 12 oz bags about every four weeks.
+      <pre class="prompt big" id="p1" style="font-size:15.5px;line-height:1.5">Add a private win-back dashboard at /dashboard. Don't link it from the site. Regulars buy 12 oz bags about every four weeks.
 
 - Email and password sign-in. Only [YOUR EMAIL] can sign up or read orders. Site visitors can still add orders.
 - Use the existing orders table. Add an "Import CSV" button for a file with columns name, email, item, amount, date. Importing the same file twice adds no duplicates. Add a "Clear all orders" button.
@@ -276,6 +296,7 @@ Use the site's fonts and colors. No gradients, cards, or emoji.</pre>
       <div class="panel"><h3>Your business</h3><p>Change how often your regulars buy, and the 6-week window.</p></div>
     </div>
   </div>
+  <div class="folio"></div>
   <aside class="notes"><p>Paste into the same project as the site, with your real email. Come back while it builds (2 to 4 min).</p><p class="say">"Same project, same orders table. The site fills it; the dashboard reads it. Use the same email you used for Resend."</p><p>Backup: if the build stalls past 5 minutes, open Backup A.</p></aside>
 </section>
 
@@ -295,7 +316,7 @@ Use the site's fonts and colors. No gradients, cards, or emoji.</pre>
       <p class="small" style="font-size:19px">Same button, same dashboard. Clear all orders first.</p>
     </div>
   </div>
-  <div class="foot"><span>Build a win-back dashboard</span><span>bolt.new</span></div>
+  <div class="wordmark">bolt.new</div><div class="folio"></div>
   <aside class="notes"><p>Drop the sample-orders.csv link in chat (it's on the deck site at /sample-orders.csv). Import it live on Backup A, which is signed in with an empty table.</p><p>Show the example data first: 3 regulars gone quiet. Then import. Maya Chen's reservation from the site shows as her latest order.</p><p class="say">"This file is fake customers. The button doesn't care: next week, put your real orders through it."</p></aside>
 </section>
 
@@ -309,7 +330,7 @@ Use the site's fonts and colors. No gradients, cards, or emoji.</pre>
     <tr><td style="white-space:nowrap"><b>Your email tool</b></td><td>None</td><td>Mailchimp, Klaviyo, Square, or Shopify Email</td><td>You already send newsletters</td></tr>
   </table>
   <p class="small" style="margin-top:26px">Today we build Resend live. The other two work with the same dashboard and the same personal message.</p>
-  <div class="foot"><span>Build a win-back dashboard</span><span>bolt.new</span></div>
+  <div class="wordmark">bolt.new</div><div class="folio"></div>
   <aside class="notes"><p class="say">"Most of you have never wired up an email service, and you don't have to today. I'll do Resend live. If you'd rather send from your own inbox or your email tool, there's a prompt for that too."</p><p>Ask chat: which one are you picking? Resend people: start signing up now.</p></aside>
 </section>
 
@@ -335,14 +356,15 @@ Use the site's fonts and colors. No gradients, cards, or emoji.</pre>
       <div class="panel" style="margin-top:28px"><h3>Checkpoint</h3><p class="body" style="font-size:22px">A private dashboard with a connected database, showing who's slipping away. Post "7" in chat when you see it.</p></div>
     </div>
   </div>
+  <div class="folio"></div>
   <aside class="notes"><p>On Backup A, right after the import, switch the window to 4 and 8 weeks.</p><p class="say">"Seven regulars, sorted by how loyal they've been. Marcus has ordered nine times and hasn't been back in nine weeks. That's the first email I'd send."</p><p>The file is dated for Nov 19. On the replay, everyone looks a few weeks quieter; the method is the same.</p></aside>
 </section>
 
 <!-- 14 -->
 <section class="slide dark">
-  <p class="lead" style="font-size:26px">Part 3</p>
+  <p class="kicker">Part 3</p>
   <h1 style="margin-top:20px">Send a win-back email</h1>
-  <div class="foot"><span></span><span>bolt.new</span></div>
+  <div class="wordmark">bolt.new</div><div class="folio"></div>
   <aside class="notes"><p>Two seconds, then advance.</p></aside>
 </section>
 
@@ -364,7 +386,7 @@ Use the site's fonts and colors. No gradients, cards, or emoji.</pre>
       <p class="small" style="font-size:19px">Not in a .env file, and not in a Supabase dashboard. If Bolt.new asks for it somewhere else, it's here.</p>
     </div>
   </div>
-  <div class="foot"><span>Build a win-back dashboard</span><span>bolt.new</span></div>
+  <div class="wordmark">bolt.new</div><div class="folio"></div>
   <aside class="notes"><p>Give chat 3 minutes. Never show your real key on screen; this slide is the walkthrough.</p><p class="say">"A key in Secrets lives on the server. Your page never sees it, so nobody can copy it out of your site."</p><p>If Secrets doesn't appear, the project has no database yet: run Prompt 1 first.</p></aside>
 </section>
 
@@ -387,6 +409,7 @@ Use the site's fonts and colors. No gradients, cards, or emoji.</pre>
       <div class="panel"><h3>Your business</h3><p>Change the fresh-batch line and the signature to yours.</p></div>
     </div>
   </div>
+  <div class="folio"></div>
   <aside class="notes"><p>Paste into Backup A live. While it builds, walk slides 17 and 18.</p><p class="say">"The page only sends the customer's email. The server looks up everything else itself, so nobody can trick it into emailing someone else."</p></aside>
 </section>
 
@@ -409,7 +432,7 @@ Use the site's fonts and colors. No gradients, cards, or emoji.</pre>
       <p class="step" style="margin-top:26px"><b>No discount.</b> Lead with being remembered. Save offers for people who don't reply.</p>
     </div>
   </div>
-  <div class="foot"><span>Build a win-back dashboard</span><span>bolt.new</span></div>
+  <div class="wordmark">bolt.new</div><div class="folio"></div>
   <aside class="notes"><p>Click to reveal each point. At 11:05, Prompt 3 makes this email editable and branded.</p><p class="say">"Every highlighted word comes from the order history. Write it the way you'd write to one person, because you are."</p></aside>
 </section>
 
@@ -426,7 +449,7 @@ Use the site's fonts and colors. No gradients, cards, or emoji.</pre>
       <div class="bodytext"><p class="testline">Test mode: this email would have gone to rosa.delgado@example.com</p><p>Hi Rosa,</p><p class="small">...</p></div>
     </div>
   </div>
-  <div class="foot"><span>Build a win-back dashboard</span><span>bolt.new</span></div>
+  <div class="wordmark">bolt.new</div><div class="folio"></div>
   <aside class="notes"><p class="say">"If you get an error about sending only to your own address, the email in your prompt doesn't match your Resend account. Make them match."</p><p>Check Backup A. If Prompt 2 finished, move on; if not, use Backup B on the next slide.</p></aside>
 </section>
 
@@ -442,7 +465,7 @@ Use the site's fonts and colors. No gradients, cards, or emoji.</pre>
     </ol>
     <div class="panel"><h3>Checkpoint</h3><p class="body" style="font-size:24px">Your first win-back email, sent from your own project through Resend. Post "landed" in chat.</p><p class="small" style="margin-top:20px;font-size:19px">Nothing after a minute? Check spam: test emails from onboarding@resend.dev often land there until you verify a domain in Part 5.</p></div>
   </div>
-  <div class="foot"><span>Build a win-back dashboard</span><span>bolt.new</span></div>
+  <div class="wordmark">bolt.new</div><div class="folio"></div>
   <aside class="notes"><p>Do it live on Backup A, or Backup B if A isn't ready. Show the email in spam on purpose: "this is why Part 5 exists." Your Gmail filter keeps it findable.</p><p class="say">"That's a real email, from your own app, through a real email service. Connecting a service like this is the step most people never get to."</p></aside>
 </section>
 
@@ -465,14 +488,15 @@ Use the site's fonts and colors. No gradients, cards, or emoji.</pre>
       <div class="panel"><h3>A plain-text copy too</h3><p>Real emails carry both versions, which helps them read as real.</p></div>
     </div>
   </div>
+  <div class="folio"></div>
   <aside class="notes"><p>Paste into Backup A live. While it builds, open the email from slide 19 and point at what's missing: no brand, no way back to the site.</p><p class="say">"Your regulars know your shop. The email should look like it came from your shop."</p><p>When it lands: edit the template live, then send to Leila Farah and show the branded email. It may still land in spam; that's Part 5. Backup B if the build stalls.</p></aside>
 </section>
 
 <!-- 21 -->
 <section class="slide dark">
-  <p class="lead" style="font-size:26px">Part 4</p>
+  <p class="kicker">Part 4</p>
   <h1 style="margin-top:20px">Is your outreach working?</h1>
-  <div class="foot"><span></span><span>bolt.new</span></div>
+  <div class="wordmark">bolt.new</div><div class="folio"></div>
   <aside class="notes"><p>Two seconds, then advance.</p></aside>
 </section>
 
@@ -486,7 +510,7 @@ Use the site's fonts and colors. No gradients, cards, or emoji.</pre>
     </div>
     <div class="panel"><p class="bignum">65%</p><p class="body" style="margin-top:12px">11 of 17 customers had ordered before</p><p class="rust" style="font-size:24px;margin-top:8px">Down 14 pts</p></div>
   </div>
-  <div class="foot"><span>Build a win-back dashboard</span><span>bolt.new</span></div>
+  <div class="wordmark">bolt.new</div><div class="folio"></div>
   <aside class="notes"><p class="say">"When regulars drift away, this number drops first. When win-backs work, it climbs back."</p><p>Months are 30-day blocks counted back from today, so the number moves daily. Check it on the same day each month.</p></aside>
 </section>
 
@@ -502,7 +526,7 @@ Use the site's fonts and colors. No gradients, cards, or emoji.</pre>
     <div class="bar now"><b>65%</b><span style="height:65%"></span><small>Last 30 days</small></div>
   </div>
   <p class="body" style="margin-top:44px;max-width:1200px">Steady for four months, then a slide as regulars went quiet. Those seven names are the reason. The goal for next month: back above 78%.</p>
-  <div class="foot"><span>Build a win-back dashboard</span><span>bolt.new</span></div>
+  <div class="wordmark">bolt.new</div><div class="folio"></div>
   <aside class="notes"><p>Show the real bars on Backup A first; come back here if the share is hard to read.</p><p class="say">"Look for the turn, not a benchmark. Your own last month is the only comparison that matters."</p></aside>
 </section>
 
@@ -517,7 +541,7 @@ Use the site's fonts and colors. No gradients, cards, or emoji.</pre>
     <tr><td>Dozens flagged every week</td><td>Window too short</td><td>Widen it by two weeks</td></tr>
     <tr><td>Almost nobody flagged</td><td>Window too long</td><td>Narrow it by two weeks</td></tr>
   </table>
-  <div class="foot"><span>Build a win-back dashboard</span><span>bolt.new</span></div>
+  <div class="wordmark">bolt.new</div><div class="folio"></div>
   <aside class="notes"><p class="say">"Who's slipping away, and one number that shows whether your outreach works. That's what you came for."</p><p>The came-back bonus prompt adds a list of emailed customers who ordered again.</p></aside>
 </section>
 
@@ -533,7 +557,7 @@ Use the site's fonts and colors. No gradients, cards, or emoji.</pre>
     </ol>
     <div class="panel"><h3>Why it matters</h3><p class="body" style="font-size:23px">A verified domain proves the email is really from you, so it reaches inboxes instead of spam, and test mode can turn off.</p></div>
   </div>
-  <div class="foot"><span>Build a win-back dashboard</span><span>bolt.new</span></div>
+  <div class="wordmark">bolt.new</div><div class="folio"></div>
   <aside class="notes"><p>Show your Resend Domains page with the domain already Verified. You set this up before the session; never wait on DNS live.</p><p class="say">"Today every email came to you, and it landed in spam. A verified domain fixes both: the same button reaches real customers, from an address that proves it's you."</p></aside>
 </section>
 
@@ -553,6 +577,7 @@ Add a footer to every email with my business address, [BUSINESS ADDRESS], and "P
       <div class="panel"><h3>Try it on yourself first</h3><p>Add one customer with your own email, then send to them before anyone else.</p></div>
     </div>
   </div>
+  <div class="folio"></div>
   <aside class="notes"><p>Before pasting: import demo-customer.csv (Jordan Ellis, your personal email, quiet 9 weeks). Paste Prompt 4 into Backup A. When it lands, flip Test mode off, send to Jordan Ellis only, and open your personal inbox: it should land in the inbox, from hello@ your domain.</p><p class="say">"Same button, real address, your own domain. That's the difference between a demo and a tool you use on Monday."</p><p>Never press Send on the sample customers with test mode off: example.com addresses bounce, and bounces hurt your domain. Backup B if the build stalls.</p></aside>
 </section>
 
@@ -565,7 +590,7 @@ Add a footer to every email with my business address, [BUSINESS ADDRESS], and "P
     <li><span>Only email people who bought from you. Never a list you bought.</span></li>
     <li><span>Read each preview before you press Send. One email, then wait.</span></li>
   </ol>
-  <div class="foot"><span>Build a win-back dashboard</span><span>bolt.new</span></div>
+  <div class="wordmark">bolt.new</div><div class="folio"></div>
   <aside class="notes"><p class="say">"These are people who already like you. Keep it that way: one personal note, easy to decline."</p><p>Not legal advice. Europe and Canada have stricter rules.</p></aside>
 </section>
 
@@ -577,6 +602,7 @@ Add a footer to every email with my business address, [BUSINESS ADDRESS], and "P
     <div class="prompt-box"><div class="prompt-head"><span>Before they go quiet</span><button class="copy" data-copy="bd">Copy prompt</button></div><pre class="prompt big" id="bd">Add a "Due soon" list above Gone quiet: regulars whose usual gap between orders has passed but who aren't quiet yet, with the date they'd normally order.</pre></div>
     <div class="prompt-box"><div class="prompt-head"><span>Phone check</span><button class="copy" data-copy="bp">Copy prompt</button></div><pre class="prompt big" id="bp">Make every screen work on a phone 375 pixels wide. Fix anything cut off, overlapping, too small to tap, or scrolling sideways. Stack Gone quiet above the repeat-customer rate.</pre></div>
   </div>
+  <div class="folio"></div>
   <aside class="notes"><p>Mention, don't run.</p><p class="say">"All of these are in the description of the recording, so you don't need to copy them now."</p></aside>
 </section>
 
@@ -589,7 +615,7 @@ Add a footer to every email with my business address, [BUSINESS ADDRESS], and "P
     <li><span>Is the dashboard private to your email?</span></li>
   </ol>
   <p class="small" style="margin-top:10px">Stuck on an error? Paste it in chat, word for word.</p>
-  <div class="foot"><span>Build a win-back dashboard</span><span>bolt.new</span></div>
+  <div class="wordmark">bolt.new</div><div class="folio"></div>
   <aside class="notes"><p>Two or three attendees, about two minutes each, one fix each. Errors first: they help everyone.</p><p>No submissions? Walk the Ridgeline dashboard against slide 23 and ask chat which window they'd pick.</p></aside>
 </section>
 
@@ -602,7 +628,7 @@ Add a footer to every email with my business address, [BUSINESS ADDRESS], and "P
     <div class="panel"><h3>Can I email past customers?</h3><p class="body step" style="font-size:22px">Usually, if they bought from you. Add your address and an easy opt-out, and check your local rules.</p></div>
     <div class="panel"><h3>Can it send automatically?</h3><p class="body step" style="font-size:22px">Later, yes. Start by clicking, so you read every email first.</p></div>
   </div>
-  <div class="foot"><span>Build a win-back dashboard</span><span>bolt.new</span></div>
+  <div class="wordmark">bolt.new</div><div class="folio"></div>
   <aside class="notes"><p>Chat questions first. To fill time: read a question, ask chat, then click to reveal. More in the run of show doc.</p></aside>
 </section>
 
@@ -611,11 +637,13 @@ Add a footer to every email with my business address, [BUSINESS ADDRESS], and "P
   <h1>Notice them early. Write like you mean it.</h1>
   <div class="strip"><i></i><i></i><i></i><i></i><i class="gap"></i><i></i><i></i></div>
   <p class="lead">Next: Tuesday, Nov 24. Leaving money on the table? Add upsells to your booking form. luma.com/bolt-vfwi</p>
-  <div class="foot"><span>Come build your business with Bolt.new</span><span>bolt.new</span></div>
+  <p class="title-meta">Come build your business with Bolt.new</p>
+  <div class="wordmark">bolt.new</div><div class="folio"></div>
   <aside class="notes"><p class="say">"Your homework: verify your domain, import your real orders, and send three win-back emails this week. Check your rate on the same day next month."</p><p>Drop the Nov 24 link in chat. Thank the co-host. End stream.</p></aside>
 </section>
 
 </div></div>
+<div id="progress"></div>
 <div id="notes" aria-live="polite"></div>
 <div id="nav"><button class="navbtn" id="prev" aria-label="Previous">Back</button><span id="count" class="navbtn" style="cursor:default"></span><button class="navbtn" id="next" aria-label="Next">Next</button></div>
 <script>
@@ -623,7 +651,8 @@ Add a footer to every email with my business address, [BUSINESS ADDRESS], and "P
   var slides=[].slice.call(document.querySelectorAll('.slide'));
   var stage=document.getElementById('stage'), notes=document.getElementById('notes'), count=document.getElementById('count');
   var i=0;
-  function fit(){var s=Math.min(window.innerWidth/1600,window.innerHeight/900);stage.style.transform='scale('+s+')';}
+  slides.forEach(function(s,k){var f=s.querySelector('.folio');if(f)f.textContent=(k+1)+' / '+slides.length;});
+  function fit(){var s=Math.min(window.innerWidth/1600,window.innerHeight/900);stage.style.transform='translate(-50%,-50%) scale('+s+')';}
   function steps(){return [].slice.call(slides[i].querySelectorAll('.step'));}
   function show(n,revealAll){
     i=Math.max(0,Math.min(slides.length-1,n));
@@ -631,6 +660,7 @@ Add a footer to every email with my business address, [BUSINESS ADDRESS], and "P
     steps().forEach(function(e){e.classList.toggle('on',!!revealAll);});
     var a=slides[i].querySelector('aside.notes'); notes.innerHTML=a?a.innerHTML:'';
     count.textContent=(i+1)+' / '+slides.length;
+    document.getElementById('progress').style.width=((i+1)/slides.length*100)+'%';
     if(location.hash!=='#'+(i+1)) history.replaceState(null,'','#'+(i+1));
   }
   function next(){var h=steps().filter(function(e){return !e.classList.contains('on');});if(h.length){h[0].classList.add('on');}else{show(i+1,false);}}
@@ -646,7 +676,7 @@ Add a footer to every email with my business address, [BUSINESS ADDRESS], and "P
   document.querySelectorAll('button.copy').forEach(function(b){
     b.addEventListener('click',function(){
       var t=document.getElementById(b.getAttribute('data-copy')).textContent;
-      function done(){b.textContent='Copied';clearTimeout(b._t);b._t=setTimeout(function(){b.textContent='Copy prompt';},1600);}
+      function done(){b.textContent='Copied';b.classList.add('copied');clearTimeout(b._t);b._t=setTimeout(function(){b.textContent='Copy prompt';b.classList.remove('copied');},1600);}
       if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(t).then(done,fallback);}else{fallback();}
       function fallback(){var ta=document.createElement('textarea');ta.value=t;document.body.appendChild(ta);ta.select();try{document.execCommand('copy');done();}catch(e){}document.body.removeChild(ta);}
     });
