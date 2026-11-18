@@ -362,9 +362,9 @@ Do not build: payments, a cart, or logins.</pre>
       <div class="prompt-head"><span>Paste into the same project as the site. Replace [YOUR EMAIL]</span><button class="copy" data-copy="p1">Copy prompt</button></div>
       <pre class="prompt big" id="p1">Add a private win-back dashboard at /dashboard. Don't link it from the site. Regulars buy 12 oz bags about every four weeks.
 
-- Email and password sign-in. Only [YOUR EMAIL] can sign up or read orders. Site visitors can still add orders.
+- Email and password sign-in, limited to [YOUR EMAIL]. The database itself must check that email on every table, now and in later changes, so another account sees nothing even if it signs up. Site visitors can still add orders but never read them.
 - Use the existing orders table. Add an "Import CSV" button for a file with columns name, email, item, amount, date. Importing the same file twice adds no duplicates. Add a "Clear all orders" button.
-- Start with example orders so the page isn't empty: 10 customers who order about every four weeks (7 still ordering, 3 whose last order was 7, 9, and 11 weeks ago) and 4 one-time buyers, using the site's coffees. Tag them "Example data" and remove them when I import a CSV.
+- Start with example orders so the page isn't empty: 10 customers who order about every four weeks (7 still ordering, 3 whose last order was 7, 9, and 11 weeks ago) and 4 one-time buyers, using the site's coffees and example.com email addresses. Tag them "Example data" and remove them when I import a CSV.
 - Gone quiet: customers with 2 or more orders whose last order was over 6 weeks ago, with a picker from 4 to 12 weeks. Show name, last item, weeks since last order, and total orders, most orders first.
 - Repeat-customer rate: of the customers who ordered in the last 30 days, the percent who also have an order dated before those 30 days began. A customer whose only orders fall inside the period is new. Show it large with the change from the 30 days before, then the last six 30-day periods as simple bars, each worked out the same way.
 
@@ -622,13 +622,13 @@ Use the site's fonts and colors. No gradients, cards, or emoji.</pre>
 </section>
 
 <!-- 25 -->
-<section class="slide roomy">
+<section class="slide">
   <h2>Go live: send from your own domain</h2>
-  <div class="cols">
+  <div class="cols" style="grid-template-columns:1.35fr 1fr">
     <ol class="steps">
-      <li><span>In Resend, open <b>Domains</b>, then <b>Add Domain</b>. Use a domain you own, not a bolt.host address.</span></li>
-      <li><span>Copy the DNS records Resend shows you.</span></li>
-      <li><span>Add them where your domain lives: Bolt.new Settings &gt; Cloud &gt; Custom domains, or your registrar.</span></li>
+      <li><span>Buy a domain in your project: gear icon &gt; All project settings &gt; Domains &amp; Hosting &gt; Buy a new domain. It attaches to the project right away.</span></li>
+      <li><span>In Resend, open <b>Domains</b>, then <b>Add Domain</b>, and enter that domain. Not a bolt.host address.</span></li>
+      <li><span>Add each record Resend shows, exactly as shown: profile icon &gt; Settings &gt; Cloud &gt; Custom domains &gt; &#8226;&#8226;&#8226; &gt; Open domain settings &gt; Add new record. In Name, enter only the part before your domain, like send.</span></li>
       <li><span>Wait for <b>Verified</b>, usually 10 to 20 minutes, sometimes a few hours. Then run Prompt 4.</span></li>
     </ol>
     <div>

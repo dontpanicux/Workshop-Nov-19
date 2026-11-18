@@ -21,9 +21,9 @@ Do not build: payments, a cart, or logins.
 ```
 Add a private win-back dashboard at /dashboard. Don't link it from the site. Regulars buy 12 oz bags about every four weeks.
 
-- Email and password sign-in. Only [YOUR EMAIL] can sign up or read orders. Site visitors can still add orders.
+- Email and password sign-in, limited to [YOUR EMAIL]. The database itself must check that email on every table, now and in later changes, so another account sees nothing even if it signs up. Site visitors can still add orders but never read them.
 - Use the existing orders table. Add an "Import CSV" button for a file with columns name, email, item, amount, date. Importing the same file twice adds no duplicates. Add a "Clear all orders" button.
-- Start with example orders so the page isn't empty: 10 customers who order about every four weeks (7 still ordering, 3 whose last order was 7, 9, and 11 weeks ago) and 4 one-time buyers, using the site's coffees. Tag them "Example data" and remove them when I import a CSV.
+- Start with example orders so the page isn't empty: 10 customers who order about every four weeks (7 still ordering, 3 whose last order was 7, 9, and 11 weeks ago) and 4 one-time buyers, using the site's coffees and example.com email addresses. Tag them "Example data" and remove them when I import a CSV.
 - Gone quiet: customers with 2 or more orders whose last order was over 6 weeks ago, with a picker from 4 to 12 weeks. Show name, last item, weeks since last order, and total orders, most orders first.
 - Repeat-customer rate: of the customers who ordered in the last 30 days, the percent who also have an order dated before those 30 days began. A customer whose only orders fall inside the period is new. Show it large with the change from the 30 days before, then the last six 30-day periods as simple bars, each worked out the same way.
 
@@ -95,9 +95,9 @@ Builds the dashboard in a fresh project without the site.
 ```
 Build a private win-back dashboard for Ridgeline Coffee Roasters, where regulars buy 12 oz bags of coffee about every four weeks.
 
-- Email and password sign-in. Only [YOUR EMAIL] can sign up or see any data.
+- Email and password sign-in, limited to [YOUR EMAIL]. The database itself must check that email on every table, now and in later changes, so another account sees nothing even if it signs up.
 - An orders table (name, email, item, amount, date) with an "Import CSV" button for files with those columns. Importing the same file twice adds no duplicates. Add a "Clear all orders" button.
-- Start with example orders so the page isn't empty: 10 customers who order about every four weeks (7 still ordering, 3 whose last order was 7, 9, and 11 weeks ago) and 4 one-time buyers. Tag them "Example data" and remove them when I import a CSV.
+- Start with example orders so the page isn't empty: 10 customers who order about every four weeks (7 still ordering, 3 whose last order was 7, 9, and 11 weeks ago) and 4 one-time buyers, all with example.com email addresses. Tag them "Example data" and remove them when I import a CSV.
 - Gone quiet: customers with 2 or more orders whose last order was over 6 weeks ago, with a picker from 4 to 12 weeks. Show name, last item, weeks since last order, and total orders, most orders first.
 - Repeat-customer rate: of the customers who ordered in the last 30 days, the percent who also have an order dated before those 30 days began. A customer whose only orders fall inside the period is new. Show it large with the change from the 30 days before, then the last six 30-day periods as simple bars, each worked out the same way.
 
