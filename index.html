@@ -760,13 +760,13 @@ Add a footer to every email with my business address, [BUSINESS ADDRESS], and "P
 <dialog id="fill" aria-labelledby="fill-title">
   <form method="dialog">
     <h3 id="fill-title">Your details</h3>
-    <p class="hint">Fills every prompt in the deck. Empty fields stay as [BRACKETS]. Saved only in this browser.</p>
-    <label for="f-email">Your email, the one you signed up to Resend with</label>
-    <input id="f-email" data-token="[YOUR EMAIL]" type="email" autocomplete="off" placeholder="you@example.com">
-    <label for="f-domain">Your domain</label>
-    <input id="f-domain" data-token="[YOURDOMAIN.COM]" type="text" autocomplete="off" placeholder="yourdomain.com">
-    <label for="f-address">Your business address</label>
-    <input id="f-address" data-token="[BUSINESS ADDRESS]" type="text" autocomplete="off" placeholder="123 Main St, Portland, OR">
+    <p class="hint">Fills the [BRACKETS] in this prompt. Your email carries over to the other prompts. Saved only in this browser.</p>
+    <div class="fgroup"><label for="f-email">Your email, the one you signed up to Resend with</label>
+    <input id="f-email" data-token="[YOUR EMAIL]" type="email" autocomplete="off" placeholder="you@example.com"></div>
+    <div class="fgroup"><label for="f-domain">Your domain, verified in Resend</label>
+    <input id="f-domain" data-token="[YOURDOMAIN.COM]" type="text" autocomplete="off" placeholder="yourdomain.com"></div>
+    <div class="fgroup"><label for="f-address">Your business address</label>
+    <input id="f-address" data-token="[BUSINESS ADDRESS]" type="text" autocomplete="off" placeholder="123 Main St, Portland, OR"></div>
     <div class="fill-actions"><button type="button" class="reset">Reset prompts</button><button class="done">Done</button></div>
   </form>
 </dialog>
@@ -823,8 +823,12 @@ Add a footer to every email with my business address, [BUSINESS ADDRESS], and "P
   try{var saved=JSON.parse(localStorage.getItem(KEY)||'null');if(saved)inputs.forEach(function(inp){if(typeof saved[inp.id]==='string')inp.value=saved[inp.id];});}catch(e){}
   apply();
   inputs.forEach(function(inp){inp.addEventListener('input',apply);});
-  document.querySelectorAll('button.fillbtn').forEach(function(b){b.addEventListener('click',function(){dlg.showModal();inputs[0].focus();});});
-  dlg.querySelector('.reset').addEventListener('click',function(){inputs.forEach(function(inp){inp.value='';});apply();inputs[0].focus();});
+  document.querySelectorAll('button.fillbtn').forEach(function(b){b.addEventListener('click',function(){
+    var pre=b.closest('.prompt-box').querySelector('pre.prompt'), src=pre._orig, first=null;
+    inputs.forEach(function(inp){var need=src.indexOf(inp.getAttribute('data-token'))>-1;inp.parentNode.hidden=!need;if(need&&!first)first=inp;});
+    dlg.showModal(); if(first)first.focus();
+  });});
+  dlg.querySelector('.reset').addEventListener('click',function(){inputs.forEach(function(inp){inp.value='';});apply();var f=inputs.filter(function(inp){return !inp.parentNode.hidden;})[0];if(f)f.focus();});
   dlg.addEventListener('click',function(e){if(e.target===dlg)dlg.close();});
   window.addEventListener('resize',fit); fit();
   window.addEventListener('hashchange',function(){var n=parseInt(location.hash.slice(1),10);if(!isNaN(n)&&n-1!==i)show(n-1,false);});
