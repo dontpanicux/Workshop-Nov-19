@@ -42,6 +42,7 @@ p{margin:0}
 .dark .kicker{color:#9CCBFF}
 .title-meta{font-size:26px;color:#D6D5DE;margin-top:40px}
 .small{font-size:22px;color:var(--muted);line-height:1.45}
+.dmarc{margin-top:22px;font-size:19px}
 .wordmark{position:absolute;left:107px;bottom:46px;width:118px;height:33px;background:url(assets/boltnew-wordmark-dark.png) left center/contain no-repeat;font-size:0;color:transparent}
 .dark .wordmark{background-image:url(assets/boltnew-wordmark-light.png)}
 .folio{position:absolute;right:107px;bottom:50px;font-size:19px;color:var(--muted)}
@@ -228,7 +229,7 @@ button.copy:focus-visible,.navbtn:focus-visible{outline:3px solid #9CCBFF;outlin
     <li style="margin-bottom:16px"><span>Connect Resend and send a win-back email to yourself <span class="small">&nbsp;12 min</span></span></li>
     <li style="margin-bottom:16px"><span>Brand the email and make it editable <span class="small">&nbsp;6 min</span></span></li>
     <li style="margin-bottom:16px"><span>Track your repeat-customer rate <span class="small">&nbsp;5 min</span></span></li>
-    <li style="margin-bottom:16px"><span>Go live from your own email domain <span class="small">&nbsp;8 min</span></span></li>
+    <li style="margin-bottom:16px"><span>Go live from your own email domain, as time permits <span class="small">&nbsp;8 min</span></span></li>
   </ol>
   <p class="small" style="margin-top:12px">Bring a free Resend account, signed up with the inbox you want test emails sent to. We'll provide the sample data.</p>
   <div class="wordmark">bolt.new</div><div class="folio"></div>
@@ -326,7 +327,7 @@ Do not build: payments, a cart, or logins.</pre>
   </table>
   <p class="small" style="margin-top:26px">Rules of thumb. Your own orders beat this table: find a few regulars, count the weeks between their visits, and double it.</p>
   <div class="wordmark">bolt.new</div><div class="folio"></div>
-  <aside class="notes"><p class="say">"Too short and you're emailing people who were about to come back anyway. Too long and they've already found someone else. Start at one and a half to two times your usual gap."</p><p>Ask chat: what's your usual gap, and what window would you pick? Read two answers.</p></aside>
+  <aside class="notes"><p class="say">"Too short and you're emailing people who were about to come back anyway. Too long and they've already found someone else. Start at one and a half to two times your usual gap."</p><p>Ask chat: what's your usual gap, and what window would you pick? Read two answers.</p><p>If asked who belongs on the list: regulars only. Appointments: skip anyone with a future booking. Classes: 2 to 3 missed weeks. Seasonal: compare to the same season last year. Leave off anyone who opted out or was emailed in the last 14 days.</p></aside>
 </section>
 
 <!-- 8 -->
@@ -362,13 +363,13 @@ Do not build: payments, a cart, or logins.</pre>
       <div class="prompt-head"><span>Paste into the same project as the site. Replace [YOUR EMAIL]</span><button class="copy" data-copy="p1">Copy prompt</button></div>
       <pre class="prompt big" id="p1">Add a private win-back dashboard at /dashboard. Don't link it from the site. Regulars buy 12 oz bags about every four weeks.
 
-- Email and password sign-in, limited to [YOUR EMAIL]. The database itself must check that email on every table, now and in later changes, so another account sees nothing even if it signs up. Site visitors can still add orders but never read them.
-- Use the existing orders table. Add an "Import CSV" button for a file with columns name, email, item, amount, date. Importing the same file twice adds no duplicates. Add a "Clear all orders" button.
+- A sign-in page with both Sign in and Create account, by email and password, limited to [YOUR EMAIL]. The database itself must check that email on every table, now and in later changes, so another account sees nothing even if it signs up. Site visitors can still add orders but never read them.
+- Use the existing orders table. Add an "Import CSV" button for a file with columns name, email, item, amount, date, read with a proper CSV parser so a quoted value with a comma, like "Ethiopia Guji, 12 oz", stays in one column. Importing adds to what's there: it removes the example rows first, keeps every other order, and skips rows already imported. Add a "Clear all orders" button.
 - Start with example orders so the page isn't empty: 10 customers who order about every four weeks (7 still ordering, 3 whose last order was 7, 9, and 11 weeks ago) and 4 one-time buyers, using the site's coffees and example.com email addresses. Tag them "Example data" and remove them when I import a CSV.
 - Gone quiet: customers with 2 or more orders whose last order was over 6 weeks ago, with a picker from 4 to 12 weeks. Show name, last item, weeks since last order, and total orders, most orders first.
-- Repeat-customer rate: of the customers who ordered in the last 30 days, the percent who also have an order dated before those 30 days began. A customer whose only orders fall inside the period is new. Show it large with the change from the 30 days before, then the last six 30-day periods as simple bars, each worked out the same way.
+- Repeat-customer rate: of the customers who ordered in the last 30 days, the percent who also have an order dated before those 30 days began. A customer whose only orders fall inside the period is new. Show it large with the change from the 30 days before, then the last six 30-day periods as filled bars in the accent color, each one as tall as its percent and worked out the same way.
 
-Use the site's fonts and colors. No gradients, cards, or emoji.</pre>
+Use the site's fonts and colors. Solid buttons with readable text, never outline-only. No gradients, cards, or emoji.</pre>
     </div>
     <div class="side-notes">
       <div class="panel"><h3>Same project as the site</h3><p>It reads the orders table the reservation form writes to, plus anything you import.</p></div>
@@ -452,7 +453,7 @@ Use the site's fonts and colors. No gradients, cards, or emoji.</pre>
   <h2>Connect Resend in three steps</h2>
   <div class="cols">
     <ol class="steps">
-      <li><span>Sign up free at resend.com with the inbox you'll test with.</span></li>
+      <li><span>Sign up free at resend.com with the inbox you'll test with. Use the same email you'll sign in to the dashboard with.</span></li>
       <li><span>In Resend, open <b>API Keys</b> and create a key. Copy it now; you won't see it again.</span></li>
       <li><span>In Bolt.new, click the <b>database icon</b>, then <b>Secrets</b>, and add it.</span></li>
     </ol>
@@ -478,9 +479,10 @@ Use the site's fonts and colors. No gradients, cards, or emoji.</pre>
       <pre class="prompt big" id="p2">Add a "Send win-back email" button to each Gone quiet row, sent through Resend.
 
 - Send from a server function using a secret named RESEND_API_KEY, which I'll add in Database &gt; Secrets. Only [YOUR EMAIL] can use it.
-- Test mode: send every email to [YOUR EMAIL] from onboarding@resend.dev, with a line saying who it would have gone to.
+- The page sends only the customer's email. The function looks up their name, last item, and weeks since last order, and builds the email itself.
+- Test mode: send every email to [YOUR EMAIL], the email my Resend account uses, from onboarding@resend.dev, with a line saying who it would have gone to.
 - Subject: "{first name}, it's been a while". Body: "Hi {first name}, it's been {weeks} weeks since your last {last item}. We just roasted a fresh batch, and I'd love to set one aside for you. Just reply to this email." Signed Ridgeline Coffee Roasters.
-- Show a preview first. After sending, mark the row "Emailed" with the date. Show any error word for word.</pre>
+- Show the email in a preview first: a pop-up over a dark backdrop that fits the screen, wraps long lines, and scrolls inside if needed. After sending, mark the row "Emailed" with the date. Show any error word for word.</pre>
     </div>
     <div class="side-notes">
       <div class="panel"><h3>A server function sends it</h3><p>The key stays on the server, and only your signed-in email can press Send.</p></div>
@@ -557,7 +559,7 @@ Use the site's fonts and colors. No gradients, cards, or emoji.</pre>
 
 - Add an "Email template" page to the dashboard with the subject and body saved in the database, editable by me. Keep {first name}, {weeks}, and {last item} as fill-ins, listed beside the editor.
 - In the preview, let me edit the subject and body for that one customer before sending.
-- Send it as a branded HTML email: "Ridgeline Coffee Roasters" in a serif heading in #2F5D50, the body in a readable sans serif on white, and a footer with "Saturdays at the farmers market, 8 am to 1 pm" and a "Reserve for pickup" link to the site. Also send a plain-text version.
+- Send it as a branded HTML email: "Ridgeline Coffee Roasters" in a serif heading in #2F5D50, the body in a readable sans serif on white, and a footer with "Saturdays at the farmers market, 8 am to 1 pm" and a "Reserve for pickup" link to the site. Line breaks in the body become paragraphs; never show "\n" as text. Also send a plain-text version.
 - Only [YOUR EMAIL] can read or change the template.</pre>
     </div>
     <div class="side-notes">
@@ -625,12 +627,15 @@ Use the site's fonts and colors. No gradients, cards, or emoji.</pre>
 <section class="slide">
   <h2>Go live: send from your own domain</h2>
   <div class="cols" style="grid-template-columns:1.35fr 1fr">
+    <div>
     <ol class="steps">
       <li><span>Buy a domain in your project: gear icon &gt; All project settings &gt; Domains &amp; Hosting &gt; Buy a new domain. It attaches to the project right away.</span></li>
       <li><span>In Resend, open <b>Domains</b>, then <b>Add Domain</b>, and enter that domain. Not a bolt.host address.</span></li>
       <li><span>Add each record Resend shows, exactly as shown: profile icon &gt; Settings &gt; Cloud &gt; Custom domains &gt; &#8226;&#8226;&#8226; &gt; Open domain settings &gt; Add new record. In Name, enter only the part before your domain, like send.</span></li>
       <li><span>Wait for <b>Verified</b>, usually 10 to 20 minutes, sometimes a few hours. Then run Prompt 4.</span></li>
     </ol>
+    <p class="small dmarc">Optional: add a TXT record named _dmarc with the value v=DMARC1; p=none; to help a new domain reach the inbox.</p>
+    </div>
     <div>
       <div class="panel"><h3>Why it matters</h3><p class="body">A verified domain proves the email is really from you, so it reaches inboxes instead of spam, and test mode can turn off.</p></div>
       <div class="domains" aria-label="Example Domains row in Resend">
@@ -640,7 +645,7 @@ Use the site's fonts and colors. No gradients, cards, or emoji.</pre>
     </div>
   </div>
   <div class="wordmark">bolt.new</div><div class="folio"></div>
-  <aside class="notes"><p>Show your Resend Domains page with the domain already Verified. You set this up before the session; never wait on DNS live.</p><p class="say">"Today every email came to you, and it landed in spam. A verified domain fixes both: the same button reaches real customers, from an address that proves it's you."</p></aside>
+  <aside class="notes"><p>Show the domain already Verified in Resend. If time is short, skip Prompt 4: show one Send a live test from Backup B, then move on.</p></aside>
 </section>
 
 <!-- 26 -->
@@ -649,18 +654,18 @@ Use the site's fonts and colors. No gradients, cards, or emoji.</pre>
   <div class="prompt-wrap">
     <div class="prompt-box">
       <div class="prompt-head"><span>Run after your domain shows Verified in Resend</span><button class="copy" data-copy="p4">Copy prompt</button></div>
-      <pre class="prompt big" id="p4">My domain [YOURDOMAIN.COM] is verified in Resend. Add a "Test mode" switch to the dashboard, on by default. When it's off, send each email to the customer's own address from "Ridgeline Coffee Roasters &lt;hello@[YOURDOMAIN.COM]&gt;" with reply-to [YOUR EMAIL], and drop the test-mode line. With test mode off, the preview shows the real address and asks me to confirm before sending.
+      <pre class="prompt big" id="p4">My domain [YOURDOMAIN.COM] is verified in Resend. Add a Test mode switch to the dashboard with its state written beside it. It starts on, stays on after a reload, and the email preview always says which mode is on. With test mode off, send each email to the customer's own address from "Ridgeline Coffee Roasters &lt;hello@[YOURDOMAIN.COM]&gt;" with reply-to [YOUR EMAIL], drop the test-mode line, and have the preview show the real address and ask me to confirm before sending. Add "Send a live test" to the preview: it sends that exact email from hello@[YOURDOMAIN.COM] to an address I type, whatever the switch says.
 
-Add a footer to every email with my business address, [BUSINESS ADDRESS], and "Prefer not to hear from us? Reply and we'll stop." Add a "Don't email" toggle for each customer that the send button respects.</pre>
+Add a footer to every email with my business address, [BUSINESS ADDRESS], and "Prefer not to hear from us? Reply and we'll stop." Give each Gone quiet row a small "..." menu with "Mark as opted out" (or "Undo opt-out"). The Status column shows one thing per row: a red "Opted out" tag, otherwise "Emailed" with the date, otherwise the send button. Opted-out customers can't be emailed.</pre>
     </div>
     <div class="side-notes">
-      <div class="panel"><h3>A switch, not a one-way change</h3><p>Test mode stays on until you flip it, and live sends ask you to confirm the real address.</p></div>
+      <div class="panel"><h3>A switch that starts on</h3><p>Test mode stays on until you flip it, and live sends ask you to confirm.</p></div>
       <div class="panel"><h3>The footer every email needs</h3><p>Your address and an easy way to say no thanks.</p></div>
-      <div class="panel"><h3>Try it on yourself first</h3><p>Add one customer with your own email, then send to them before anyone else.</p></div>
+      <div class="panel"><h3>Try it on yourself first</h3><p>Press Send a live test and type your own email before emailing anyone.</p></div>
     </div>
   </div>
   <div class="folio"></div>
-  <aside class="notes"><p>Before pasting: import demo-customer.csv (Jordan Ellis, your personal email, quiet 9 weeks). Paste Prompt 4 into Backup A. When it lands, flip Test mode off, send to Jordan Ellis only, and open your personal inbox: it should land in the inbox, from hello@ your domain.</p><p class="say">"Same button, real address, your own domain. That's the difference between a demo and a tool you use on Monday."</p><p>Never press Send on the sample customers with test mode off: example.com addresses bounce, and bounces hurt your domain. Backup B if the build stalls.</p></aside>
+  <aside class="notes"><p>Paste Prompt 4. Open Marcus Hill's preview, press Send a live test, type your personal email, and show it arriving from hello@ your domain. Leave Test mode on; never send to the sample customers with it off, since example.com addresses bounce.</p></aside>
 </section>
 
 <!-- 27 -->
