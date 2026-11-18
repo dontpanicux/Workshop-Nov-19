@@ -1,0 +1,218 @@
+name,email,item,amount,date
+Tom Becker,tom.becker@example.com,"Ridgeline House Blend, 12 oz",16.00,2026-11-18
+Sam Whitfield,sam.whitfield@example.com,"Night Shift Espresso, 2 lb",42.00,2026-11-16
+Alex Kim,alex.kim@example.com,"Ridgeline House Blend, 12 oz",16.00,2026-11-14
+Nina Lopez,nina.lopez@example.com,"Colombia Huila, 12 oz",18.00,2026-11-11
+Maya Chen,maya.chen@example.com,"Ethiopia Guji, 12 oz",19.00,2026-11-10
+Diego Ramos,diego.ramos@example.com,"Night Shift Espresso, 2 lb",42.00,2026-11-08
+Omar Haddad,omar.haddad@example.com,"Swiss Water Decaf, 12 oz",17.00,2026-11-07
+Zoe Martin,zoe.martin@example.com,"Ethiopia Guji, 12 oz",19.00,2026-11-06
+Luis Ortega,luis.ortega@example.com,"Ridgeline House Blend, 12 oz",16.00,2026-11-05
+Ivy Park,ivy.park@example.com,"Ethiopia Guji, 12 oz",19.00,2026-11-03
+Hannah Li,hannah.li@example.com,"Ethiopia Guji, 12 oz",19.00,2026-11-01
+Beth Carter,beth.carter@example.com,"Ethiopia Guji, 12 oz",19.00,2026-10-31
+Priya Nair,priya.nair@example.com,"Colombia Huila, 12 oz",18.00,2026-10-29
+Ravi Shah,ravi.shah@example.com,"Swiss Water Decaf, 12 oz",17.00,2026-10-28
+Nora Fitzgerald,nora.fitzgerald@example.com,"Colombia Huila, 12 oz",18.00,2026-10-25
+Grace Okafor,grace.okafor@example.com,"Swiss Water Decaf, 12 oz",17.00,2026-10-23
+Holly Ames,holly.ames@example.com,"Ridgeline House Blend, 12 oz",16.00,2026-10-23
+Tom Becker,tom.becker@example.com,"Ridgeline House Blend, 12 oz",16.00,2026-10-22
+Ben Adler,ben.adler@example.com,"Ridgeline House Blend, 12 oz",16.00,2026-10-19
+Kevin Murphy,kevin.murphy@example.com,"Night Shift Espresso, 2 lb",42.00,2026-10-19
+Sam Whitfield,sam.whitfield@example.com,"Night Shift Espresso, 2 lb",42.00,2026-10-17
+Sofia Rossi,sofia.rossi@example.com,"Colombia Huila, 12 oz",18.00,2026-10-14
+Maya Chen,maya.chen@example.com,"Ethiopia Guji, 12 oz",19.00,2026-10-12
+Chris Nolan,chris.nolan@example.com,"Swiss Water Decaf, 12 oz",17.00,2026-10-12
+Diego Ramos,diego.ramos@example.com,"Night Shift Espresso, 2 lb",42.00,2026-10-10
+Mia Brennan,mia.brennan@example.com,"Colombia Huila, 12 oz",18.00,2026-10-09
+Luis Ortega,luis.ortega@example.com,"Ridgeline House Blend, 12 oz",16.00,2026-10-08
+Omar Haddad,omar.haddad@example.com,"Swiss Water Decaf, 12 oz",17.00,2026-10-08
+Ivy Park,ivy.park@example.com,"Ethiopia Guji, 12 oz",19.00,2026-10-06
+Wes Turner,wes.turner@example.com,"Ridgeline House Blend, 12 oz",16.00,2026-10-06
+Leila Farah,leila.farah@example.com,"Ridgeline House Blend, 12 oz",16.00,2026-10-05
+Hannah Li,hannah.li@example.com,"Ethiopia Guji, 12 oz",19.00,2026-10-03
+Rosa Delgado,rosa.delgado@example.com,"Ethiopia Guji, 12 oz",19.00,2026-10-03
+Paul Reyes,paul.reyes@example.com,"Night Shift Espresso, 2 lb",42.00,2026-09-30
+Priya Nair,priya.nair@example.com,"Colombia Huila, 12 oz",18.00,2026-09-29
+Ethan Brooks,ethan.brooks@example.com,"Night Shift Espresso, 2 lb",42.00,2026-09-29
+Tom Becker,tom.becker@example.com,"Ridgeline House Blend, 12 oz",16.00,2026-09-25
+Nora Fitzgerald,nora.fitzgerald@example.com,"Colombia Huila, 12 oz",18.00,2026-09-25
+Uma Patel,uma.patel@example.com,"Ethiopia Guji, 12 oz",19.00,2026-09-25
+Grace Okafor,grace.okafor@example.com,"Swiss Water Decaf, 12 oz",17.00,2026-09-23
+Ben Adler,ben.adler@example.com,"Ridgeline House Blend, 12 oz",16.00,2026-09-22
+Kevin Murphy,kevin.murphy@example.com,"Night Shift Espresso, 2 lb",42.00,2026-09-22
+Claire Dubois,claire.dubois@example.com,"Colombia Huila, 12 oz",18.00,2026-09-22
+Marcus Hill,marcus.hill@example.com,"Ridgeline House Blend, 12 oz",16.00,2026-09-19
+Sam Whitfield,sam.whitfield@example.com,"Night Shift Espresso, 2 lb",42.00,2026-09-17
+Dana Price,dana.price@example.com,"Colombia Huila, 12 oz",18.00,2026-09-17
+Sofia Rossi,sofia.rossi@example.com,"Colombia Huila, 12 oz",18.00,2026-09-14
+Maya Chen,maya.chen@example.com,"Ethiopia Guji, 12 oz",19.00,2026-09-13
+Diego Ramos,diego.ramos@example.com,"Night Shift Espresso, 2 lb",42.00,2026-09-11
+Luis Ortega,luis.ortega@example.com,"Ridgeline House Blend, 12 oz",16.00,2026-09-10
+Kai Morgan,kai.morgan@example.com,"Ridgeline House Blend, 12 oz",16.00,2026-09-09
+Omar Haddad,omar.haddad@example.com,"Swiss Water Decaf, 12 oz",17.00,2026-09-08
+Ivy Park,ivy.park@example.com,"Ethiopia Guji, 12 oz",19.00,2026-09-08
+Aiko Tanaka,aiko.tanaka@example.com,"Swiss Water Decaf, 12 oz",17.00,2026-09-08
+Leila Farah,leila.farah@example.com,"Ridgeline House Blend, 12 oz",16.00,2026-09-06
+Rosa Delgado,rosa.delgado@example.com,"Ethiopia Guji, 12 oz",19.00,2026-09-05
+Hannah Li,hannah.li@example.com,"Ethiopia Guji, 12 oz",19.00,2026-09-04
+Ethan Brooks,ethan.brooks@example.com,"Night Shift Espresso, 2 lb",42.00,2026-08-31
+Lena Vogel,lena.vogel@example.com,"Ethiopia Guji, 12 oz",19.00,2026-08-31
+Priya Nair,priya.nair@example.com,"Colombia Huila, 12 oz",18.00,2026-08-30
+Tom Becker,tom.becker@example.com,"Ridgeline House Blend, 12 oz",16.00,2026-08-29
+Nora Fitzgerald,nora.fitzgerald@example.com,"Colombia Huila, 12 oz",18.00,2026-08-26
+Ben Adler,ben.adler@example.com,"Ridgeline House Blend, 12 oz",16.00,2026-08-26
+Kevin Murphy,kevin.murphy@example.com,"Night Shift Espresso, 2 lb",42.00,2026-08-26
+Jonah Weiss,jonah.weiss@example.com,"Ethiopia Guji, 12 oz",19.00,2026-08-25
+Grace Okafor,grace.okafor@example.com,"Swiss Water Decaf, 12 oz",17.00,2026-08-24
+Claire Dubois,claire.dubois@example.com,"Colombia Huila, 12 oz",18.00,2026-08-23
+Marcus Hill,marcus.hill@example.com,"Ridgeline House Blend, 12 oz",16.00,2026-08-23
+Owen Clark,owen.clark@example.com,"Swiss Water Decaf, 12 oz",17.00,2026-08-23
+Sam Whitfield,sam.whitfield@example.com,"Night Shift Espresso, 2 lb",42.00,2026-08-18
+Maya Chen,maya.chen@example.com,"Ethiopia Guji, 12 oz",19.00,2026-08-15
+Sofia Rossi,sofia.rossi@example.com,"Colombia Huila, 12 oz",18.00,2026-08-15
+Eli Grant,eli.grant@example.com,"Ridgeline House Blend, 12 oz",16.00,2026-08-14
+Luis Ortega,luis.ortega@example.com,"Ridgeline House Blend, 12 oz",16.00,2026-08-13
+Diego Ramos,diego.ramos@example.com,"Night Shift Espresso, 2 lb",42.00,2026-08-13
+Ivy Park,ivy.park@example.com,"Ethiopia Guji, 12 oz",19.00,2026-08-11
+Omar Haddad,omar.haddad@example.com,"Swiss Water Decaf, 12 oz",17.00,2026-08-09
+Aiko Tanaka,aiko.tanaka@example.com,"Swiss Water Decaf, 12 oz",17.00,2026-08-09
+Rosa Delgado,rosa.delgado@example.com,"Ethiopia Guji, 12 oz",19.00,2026-08-08
+Leila Farah,leila.farah@example.com,"Ridgeline House Blend, 12 oz",16.00,2026-08-08
+Tara Quinn,tara.quinn@example.com,"Ethiopia Guji, 12 oz",19.00,2026-08-07
+Hannah Li,hannah.li@example.com,"Ethiopia Guji, 12 oz",19.00,2026-08-06
+Tom Becker,tom.becker@example.com,"Ridgeline House Blend, 12 oz",16.00,2026-08-02
+Ethan Brooks,ethan.brooks@example.com,"Night Shift Espresso, 2 lb",42.00,2026-08-02
+Priya Nair,priya.nair@example.com,"Colombia Huila, 12 oz",18.00,2026-07-31
+Ben Adler,ben.adler@example.com,"Ridgeline House Blend, 12 oz",16.00,2026-07-30
+Kevin Murphy,kevin.murphy@example.com,"Night Shift Espresso, 2 lb",42.00,2026-07-30
+Isaac Moore,isaac.moore@example.com,"Colombia Huila, 12 oz",18.00,2026-07-30
+Nora Fitzgerald,nora.fitzgerald@example.com,"Colombia Huila, 12 oz",18.00,2026-07-27
+Marcus Hill,marcus.hill@example.com,"Ridgeline House Blend, 12 oz",16.00,2026-07-27
+Jonah Weiss,jonah.weiss@example.com,"Ethiopia Guji, 12 oz",19.00,2026-07-27
+Grace Okafor,grace.okafor@example.com,"Swiss Water Decaf, 12 oz",17.00,2026-07-25
+Claire Dubois,claire.dubois@example.com,"Colombia Huila, 12 oz",18.00,2026-07-24
+Jade Wu,jade.wu@example.com,"Ridgeline House Blend, 12 oz",16.00,2026-07-24
+Sam Whitfield,sam.whitfield@example.com,"Night Shift Espresso, 2 lb",42.00,2026-07-19
+Maya Chen,maya.chen@example.com,"Ethiopia Guji, 12 oz",19.00,2026-07-17
+Luis Ortega,luis.ortega@example.com,"Ridgeline House Blend, 12 oz",16.00,2026-07-16
+Sofia Rossi,sofia.rossi@example.com,"Colombia Huila, 12 oz",18.00,2026-07-16
+Noah Bell,noah.bell@example.com,"Ethiopia Guji, 12 oz",19.00,2026-07-16
+Diego Ramos,diego.ramos@example.com,"Night Shift Espresso, 2 lb",42.00,2026-07-15
+Ivy Park,ivy.park@example.com,"Ethiopia Guji, 12 oz",19.00,2026-07-14
+Rosa Delgado,rosa.delgado@example.com,"Ethiopia Guji, 12 oz",19.00,2026-07-11
+Omar Haddad,omar.haddad@example.com,"Swiss Water Decaf, 12 oz",17.00,2026-07-10
+Leila Farah,leila.farah@example.com,"Ridgeline House Blend, 12 oz",16.00,2026-07-10
+Aiko Tanaka,aiko.tanaka@example.com,"Swiss Water Decaf, 12 oz",17.00,2026-07-10
+Hannah Li,hannah.li@example.com,"Ethiopia Guji, 12 oz",19.00,2026-07-08
+Fiona Shaw,fiona.shaw@example.com,"Night Shift Espresso, 2 lb",42.00,2026-07-08
+Tom Becker,tom.becker@example.com,"Ridgeline House Blend, 12 oz",16.00,2026-07-06
+Ethan Brooks,ethan.brooks@example.com,"Night Shift Espresso, 2 lb",42.00,2026-07-04
+Ben Adler,ben.adler@example.com,"Ridgeline House Blend, 12 oz",16.00,2026-07-03
+Kevin Murphy,kevin.murphy@example.com,"Night Shift Espresso, 2 lb",42.00,2026-07-03
+Priya Nair,priya.nair@example.com,"Colombia Huila, 12 oz",18.00,2026-07-01
+Ruth Ellis,ruth.ellis@example.com,"Ridgeline House Blend, 12 oz",16.00,2026-07-01
+Marcus Hill,marcus.hill@example.com,"Ridgeline House Blend, 12 oz",16.00,2026-06-30
+Jonah Weiss,jonah.weiss@example.com,"Ethiopia Guji, 12 oz",19.00,2026-06-28
+Nora Fitzgerald,nora.fitzgerald@example.com,"Colombia Huila, 12 oz",18.00,2026-06-27
+Grace Okafor,grace.okafor@example.com,"Swiss Water Decaf, 12 oz",17.00,2026-06-25
+Claire Dubois,claire.dubois@example.com,"Colombia Huila, 12 oz",18.00,2026-06-24
+Sam Whitfield,sam.whitfield@example.com,"Night Shift Espresso, 2 lb",42.00,2026-06-19
+Maya Chen,maya.chen@example.com,"Ethiopia Guji, 12 oz",19.00,2026-06-18
+Luis Ortega,luis.ortega@example.com,"Ridgeline House Blend, 12 oz",16.00,2026-06-18
+Diego Ramos,diego.ramos@example.com,"Night Shift Espresso, 2 lb",42.00,2026-06-16
+Ivy Park,ivy.park@example.com,"Ethiopia Guji, 12 oz",19.00,2026-06-16
+Sofia Rossi,sofia.rossi@example.com,"Colombia Huila, 12 oz",18.00,2026-06-16
+Ana Silva,ana.silva@example.com,"Swiss Water Decaf, 12 oz",17.00,2026-06-14
+Rosa Delgado,rosa.delgado@example.com,"Ethiopia Guji, 12 oz",19.00,2026-06-13
+Leila Farah,leila.farah@example.com,"Ridgeline House Blend, 12 oz",16.00,2026-06-11
+Omar Haddad,omar.haddad@example.com,"Swiss Water Decaf, 12 oz",17.00,2026-06-10
+Aiko Tanaka,aiko.tanaka@example.com,"Swiss Water Decaf, 12 oz",17.00,2026-06-10
+Tom Becker,tom.becker@example.com,"Ridgeline House Blend, 12 oz",16.00,2026-06-09
+Hannah Li,hannah.li@example.com,"Ethiopia Guji, 12 oz",19.00,2026-06-09
+Max Ford,max.ford@example.com,"Ridgeline House Blend, 12 oz",16.00,2026-06-07
+Ben Adler,ben.adler@example.com,"Ridgeline House Blend, 12 oz",16.00,2026-06-06
+Kevin Murphy,kevin.murphy@example.com,"Night Shift Espresso, 2 lb",42.00,2026-06-06
+Ethan Brooks,ethan.brooks@example.com,"Night Shift Espresso, 2 lb",42.00,2026-06-05
+Marcus Hill,marcus.hill@example.com,"Ridgeline House Blend, 12 oz",16.00,2026-06-03
+Priya Nair,priya.nair@example.com,"Colombia Huila, 12 oz",18.00,2026-06-01
+Gabe Ruiz,gabe.ruiz@example.com,"Ethiopia Guji, 12 oz",19.00,2026-06-01
+Jonah Weiss,jonah.weiss@example.com,"Ethiopia Guji, 12 oz",19.00,2026-05-30
+Nora Fitzgerald,nora.fitzgerald@example.com,"Colombia Huila, 12 oz",18.00,2026-05-28
+Grace Okafor,grace.okafor@example.com,"Swiss Water Decaf, 12 oz",17.00,2026-05-26
+Claire Dubois,claire.dubois@example.com,"Colombia Huila, 12 oz",18.00,2026-05-25
+Luis Ortega,luis.ortega@example.com,"Ridgeline House Blend, 12 oz",16.00,2026-05-21
+Maya Chen,maya.chen@example.com,"Ethiopia Guji, 12 oz",19.00,2026-05-20
+Sam Whitfield,sam.whitfield@example.com,"Night Shift Espresso, 2 lb",42.00,2026-05-20
+Ivy Park,ivy.park@example.com,"Ethiopia Guji, 12 oz",19.00,2026-05-19
+Diego Ramos,diego.ramos@example.com,"Night Shift Espresso, 2 lb",42.00,2026-05-18
+Sofia Rossi,sofia.rossi@example.com,"Colombia Huila, 12 oz",18.00,2026-05-17
+Rosa Delgado,rosa.delgado@example.com,"Ethiopia Guji, 12 oz",19.00,2026-05-16
+Tom Becker,tom.becker@example.com,"Ridgeline House Blend, 12 oz",16.00,2026-05-13
+Leila Farah,leila.farah@example.com,"Ridgeline House Blend, 12 oz",16.00,2026-05-13
+Hannah Li,hannah.li@example.com,"Ethiopia Guji, 12 oz",19.00,2026-05-11
+Omar Haddad,omar.haddad@example.com,"Swiss Water Decaf, 12 oz",17.00,2026-05-11
+Aiko Tanaka,aiko.tanaka@example.com,"Swiss Water Decaf, 12 oz",17.00,2026-05-11
+Ben Adler,ben.adler@example.com,"Ridgeline House Blend, 12 oz",16.00,2026-05-10
+Kevin Murphy,kevin.murphy@example.com,"Night Shift Espresso, 2 lb",42.00,2026-05-10
+Ethan Brooks,ethan.brooks@example.com,"Night Shift Espresso, 2 lb",42.00,2026-05-07
+Marcus Hill,marcus.hill@example.com,"Ridgeline House Blend, 12 oz",16.00,2026-05-07
+Priya Nair,priya.nair@example.com,"Colombia Huila, 12 oz",18.00,2026-05-02
+Jonah Weiss,jonah.weiss@example.com,"Ethiopia Guji, 12 oz",19.00,2026-05-01
+Nora Fitzgerald,nora.fitzgerald@example.com,"Colombia Huila, 12 oz",18.00,2026-04-28
+Grace Okafor,grace.okafor@example.com,"Swiss Water Decaf, 12 oz",17.00,2026-04-26
+Claire Dubois,claire.dubois@example.com,"Colombia Huila, 12 oz",18.00,2026-04-25
+Luis Ortega,luis.ortega@example.com,"Ridgeline House Blend, 12 oz",16.00,2026-04-23
+Maya Chen,maya.chen@example.com,"Ethiopia Guji, 12 oz",19.00,2026-04-21
+Ivy Park,ivy.park@example.com,"Ethiopia Guji, 12 oz",19.00,2026-04-21
+Sam Whitfield,sam.whitfield@example.com,"Night Shift Espresso, 2 lb",42.00,2026-04-20
+Diego Ramos,diego.ramos@example.com,"Night Shift Espresso, 2 lb",42.00,2026-04-19
+Rosa Delgado,rosa.delgado@example.com,"Ethiopia Guji, 12 oz",19.00,2026-04-18
+Sofia Rossi,sofia.rossi@example.com,"Colombia Huila, 12 oz",18.00,2026-04-17
+Tom Becker,tom.becker@example.com,"Ridgeline House Blend, 12 oz",16.00,2026-04-16
+Leila Farah,leila.farah@example.com,"Ridgeline House Blend, 12 oz",16.00,2026-04-14
+Ben Adler,ben.adler@example.com,"Ridgeline House Blend, 12 oz",16.00,2026-04-13
+Kevin Murphy,kevin.murphy@example.com,"Night Shift Espresso, 2 lb",42.00,2026-04-13
+Hannah Li,hannah.li@example.com,"Ethiopia Guji, 12 oz",19.00,2026-04-12
+Omar Haddad,omar.haddad@example.com,"Swiss Water Decaf, 12 oz",17.00,2026-04-11
+Aiko Tanaka,aiko.tanaka@example.com,"Swiss Water Decaf, 12 oz",17.00,2026-04-11
+Marcus Hill,marcus.hill@example.com,"Ridgeline House Blend, 12 oz",16.00,2026-04-10
+Ethan Brooks,ethan.brooks@example.com,"Night Shift Espresso, 2 lb",42.00,2026-04-08
+Priya Nair,priya.nair@example.com,"Colombia Huila, 12 oz",18.00,2026-04-02
+Jonah Weiss,jonah.weiss@example.com,"Ethiopia Guji, 12 oz",19.00,2026-04-02
+Nora Fitzgerald,nora.fitzgerald@example.com,"Colombia Huila, 12 oz",18.00,2026-03-29
+Grace Okafor,grace.okafor@example.com,"Swiss Water Decaf, 12 oz",17.00,2026-03-27
+Luis Ortega,luis.ortega@example.com,"Ridgeline House Blend, 12 oz",16.00,2026-03-26
+Claire Dubois,claire.dubois@example.com,"Colombia Huila, 12 oz",18.00,2026-03-26
+Ivy Park,ivy.park@example.com,"Ethiopia Guji, 12 oz",19.00,2026-03-24
+Maya Chen,maya.chen@example.com,"Ethiopia Guji, 12 oz",19.00,2026-03-23
+Sam Whitfield,sam.whitfield@example.com,"Night Shift Espresso, 2 lb",42.00,2026-03-21
+Diego Ramos,diego.ramos@example.com,"Night Shift Espresso, 2 lb",42.00,2026-03-21
+Rosa Delgado,rosa.delgado@example.com,"Ethiopia Guji, 12 oz",19.00,2026-03-21
+Tom Becker,tom.becker@example.com,"Ridgeline House Blend, 12 oz",16.00,2026-03-20
+Sofia Rossi,sofia.rossi@example.com,"Colombia Huila, 12 oz",18.00,2026-03-18
+Ben Adler,ben.adler@example.com,"Ridgeline House Blend, 12 oz",16.00,2026-03-17
+Kevin Murphy,kevin.murphy@example.com,"Night Shift Espresso, 2 lb",42.00,2026-03-17
+Leila Farah,leila.farah@example.com,"Ridgeline House Blend, 12 oz",16.00,2026-03-16
+Hannah Li,hannah.li@example.com,"Ethiopia Guji, 12 oz",19.00,2026-03-14
+Marcus Hill,marcus.hill@example.com,"Ridgeline House Blend, 12 oz",16.00,2026-03-14
+Omar Haddad,omar.haddad@example.com,"Swiss Water Decaf, 12 oz",17.00,2026-03-12
+Aiko Tanaka,aiko.tanaka@example.com,"Swiss Water Decaf, 12 oz",17.00,2026-03-12
+Ethan Brooks,ethan.brooks@example.com,"Night Shift Espresso, 2 lb",42.00,2026-03-10
+Jonah Weiss,jonah.weiss@example.com,"Ethiopia Guji, 12 oz",19.00,2026-03-04
+Priya Nair,priya.nair@example.com,"Colombia Huila, 12 oz",18.00,2026-03-03
+Nora Fitzgerald,nora.fitzgerald@example.com,"Colombia Huila, 12 oz",18.00,2026-02-27
+Luis Ortega,luis.ortega@example.com,"Ridgeline House Blend, 12 oz",16.00,2026-02-26
+Grace Okafor,grace.okafor@example.com,"Swiss Water Decaf, 12 oz",17.00,2026-02-25
+Ivy Park,ivy.park@example.com,"Ethiopia Guji, 12 oz",19.00,2026-02-24
+Claire Dubois,claire.dubois@example.com,"Colombia Huila, 12 oz",18.00,2026-02-24
+Maya Chen,maya.chen@example.com,"Ethiopia Guji, 12 oz",19.00,2026-02-22
+Tom Becker,tom.becker@example.com,"Ridgeline House Blend, 12 oz",16.00,2026-02-21
+Rosa Delgado,rosa.delgado@example.com,"Ethiopia Guji, 12 oz",19.00,2026-02-21
+Diego Ramos,diego.ramos@example.com,"Night Shift Espresso, 2 lb",42.00,2026-02-20
+Sam Whitfield,sam.whitfield@example.com,"Night Shift Espresso, 2 lb",42.00,2026-02-19
+Leila Farah,leila.farah@example.com,"Ridgeline House Blend, 12 oz",16.00,2026-02-15
+Marcus Hill,marcus.hill@example.com,"Ridgeline House Blend, 12 oz",16.00,2026-02-15
+Hannah Li,hannah.li@example.com,"Ethiopia Guji, 12 oz",19.00,2026-02-13
+Aiko Tanaka,aiko.tanaka@example.com,"Swiss Water Decaf, 12 oz",17.00,2026-02-10
+Jonah Weiss,jonah.weiss@example.com,"Ethiopia Guji, 12 oz",19.00,2026-02-03

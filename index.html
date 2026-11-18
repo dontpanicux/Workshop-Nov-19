@@ -1,0 +1,660 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Build a win-back dashboard | Bolt.new workshop</title>
+<meta name="description" content="Live Bolt.new workshop: build a private dashboard that flags regulars who stopped coming back and sends each one a personal email through Resend.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&family=Young+Serif&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#F4F5F1; --surface:#FFFFFF; --ink:#18211D; --muted:#57625C; --rule:#D9DED7;
+  --spruce:#2F5D50; --spruce-soft:#E3ECE8; --rust:#9C3D2E; --code:#1E2723; --code-ink:#E8EDE9;
+  --serif:"Young Serif", Georgia, "Times New Roman", serif;
+  --sans:"IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --mono:"IBM Plex Mono", ui-monospace, Menlo, Consolas, monospace;
+}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%;background:#0f1412;overflow:hidden}
+body{font-family:var(--sans);color:var(--ink);font-variant-numeric:tabular-nums}
+#viewport{position:fixed;inset:0;display:grid;place-items:center}
+#stage{width:1600px;height:900px;position:relative;transform-origin:center center}
+.slide{position:absolute;inset:0;background:var(--paper);padding:84px 112px 96px;display:none;flex-direction:column;overflow:hidden}
+.slide.active{display:flex}
+.slide.dark{background:var(--spruce);color:#F4F5F1}
+h1,h2{font-family:var(--serif);font-weight:400;margin:0;letter-spacing:-0.01em}
+h1,h2,h3{text-wrap:balance}
+h1{font-size:96px;line-height:1.02;max-width:1150px}
+h2{font-size:58px;line-height:1.08;max-width:1250px;margin-bottom:40px}
+h3{font-size:26px;font-weight:600;margin:0 0 10px}
+p{margin:0}
+.lead{font-size:34px;line-height:1.35;color:var(--muted);max-width:1100px}
+.dark .lead{color:#CFDCD6}
+.small{font-size:22px;color:var(--muted);line-height:1.45}
+.foot{position:absolute;left:112px;right:112px;bottom:36px;display:flex;justify-content:space-between;font-size:18px;color:var(--muted)}
+.dark .foot{color:#B9CCC4}
+.cols{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:start}
+.cols-62{display:grid;grid-template-columns:1.6fr 1fr;gap:56px;align-items:start}
+.panel{background:var(--surface);border:1px solid var(--rule);border-radius:12px;padding:32px 36px}
+.panel p+p{margin-top:14px}
+.body{font-size:26px;line-height:1.45}
+.body li{margin-bottom:14px}
+ol.steps{list-style:none;padding:0;margin:0;counter-reset:s}
+ol.steps li{counter-increment:s;display:grid;grid-template-columns:64px 1fr;gap:20px;font-size:28px;line-height:1.4;margin-bottom:26px}
+ol.steps li::before{content:counter(s);font-family:var(--serif);font-size:40px;color:var(--spruce);line-height:1}
+.step{opacity:0;transition:opacity .25s}
+.step.on{opacity:1}
+@media (prefers-reduced-motion:reduce){.step{transition:none}}
+table.ledger{width:100%;border-collapse:collapse;font-size:24px}
+table.ledger th{font-weight:600;font-size:18px;color:var(--muted);text-align:left;padding:10px 14px;border-bottom:1px solid var(--rule)}
+table.ledger td{padding:13px 14px;border-bottom:1px solid var(--rule);vertical-align:top}
+table.ledger td.num,table.ledger th.num{text-align:right}
+.rust{color:var(--rust);font-weight:600}
+.tag{display:inline-block;background:var(--spruce-soft);color:var(--spruce);font-size:16px;font-weight:600;padding:4px 10px;border-radius:6px;vertical-align:middle}
+.btn{display:inline-block;background:var(--spruce);color:#fff;border-radius:8px;padding:9px 16px;font-size:18px;font-weight:600;white-space:nowrap}
+.btn.ghost{background:transparent;color:var(--spruce);border:1px solid var(--spruce)}
+/* order strip: the visual signature */
+.strip{display:flex;gap:22px;align-items:center;margin:40px 0}
+.strip i{width:34px;height:34px;border-radius:50%;background:var(--spruce);display:block}
+.strip i.gap{background:transparent;border:3px dashed var(--rust)}
+.dark .strip i{background:#F4F5F1}
+.dark .strip i.gap{border-color:#F0B9AC;background:transparent}
+.strip.big i{width:52px;height:52px}
+.strip-label{font-size:22px;color:var(--muted)}
+.dark .strip-label{color:#CFDCD6}
+/* prompts */
+.prompt-wrap{display:grid;grid-template-columns:1fr 360px;gap:40px;flex:1;min-height:0}
+.prompt-box{display:flex;flex-direction:column;min-height:0}
+.prompt-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;font-size:20px;color:var(--muted)}
+pre.prompt.big{font-size:19px;line-height:1.6}
+pre.prompt{flex:1;margin:0;background:var(--code);color:var(--code-ink);font-family:var(--mono);font-size:15px;line-height:1.55;padding:24px 28px;border-radius:12px;overflow:auto;white-space:pre-wrap;min-height:0}
+button.copy{font:600 18px var(--sans);background:var(--spruce);color:#fff;border:0;border-radius:8px;padding:10px 18px;cursor:pointer;min-height:44px}
+button.copy:focus-visible,.navbtn:focus-visible{outline:3px solid #F0B9AC;outline-offset:2px}
+.side-notes .panel{padding:24px 26px;margin-bottom:18px}
+.side-notes h3{font-size:21px}
+.side-notes p{font-size:19px;line-height:1.45;color:var(--muted)}
+/* bars */
+.bars{display:flex;align-items:flex-end;gap:26px;height:300px;margin-top:20px}
+.bar{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%;font-size:20px}
+.bar b{font-weight:600;margin-bottom:8px}
+.bar span{display:block;width:100%;background:var(--spruce);border-radius:6px 6px 0 0}
+.bar.now span{background:var(--rust)}
+.bar small{margin-top:10px;color:var(--muted);font-size:17px;white-space:nowrap}
+.bignum{font-family:var(--serif);font-size:150px;line-height:1}
+/* email mock */
+.email{background:var(--surface);border:1px solid var(--rule);border-radius:12px;font-size:23px;line-height:1.5;overflow:hidden}
+.email .meta{padding:18px 28px;border-bottom:1px solid var(--rule);font-size:19px;color:var(--muted)}
+.email .meta div+div{margin-top:4px}
+.email .bodytext{padding:24px 28px}
+.email .bodytext p+p{margin-top:14px}
+.email .testline{font-size:17px;color:#7A847E;margin-bottom:16px}
+.fill{background:var(--spruce-soft);color:var(--spruce);border-radius:4px;padding:0 6px;font-weight:600}
+/* secrets mock */
+.field{border:1px solid var(--rule);border-radius:8px;padding:12px 16px;font-family:var(--mono);font-size:20px;background:#FBFBF9;margin:8px 0 18px}
+/* notes overlay */
+#notes{position:fixed;left:0;right:0;bottom:0;max-height:42vh;overflow:auto;background:#111815;color:#E6ECE8;font:17px/1.55 var(--sans);padding:20px 28px 28px;display:none;border-top:3px solid var(--spruce);z-index:5}
+#notes.show{display:block}
+#notes p{margin:0 0 10px;max-width:1100px}
+#notes .say{color:#fff}
+.slide aside.notes{display:none}
+#hint{position:fixed;top:10px;left:50%;transform:translateX(-50%);font:14px var(--sans);color:#9fb0a8;z-index:4}
+#nav{position:fixed;right:16px;bottom:14px;display:flex;gap:8px;z-index:6}
+.navbtn{font:600 15px var(--sans);background:#1E2723;color:#E6ECE8;border:1px solid #33413b;border-radius:6px;padding:8px 12px;cursor:pointer;min-width:44px;min-height:40px}
+</style>
+</head>
+<body>
+<div id="hint">Right arrow: next. Left arrow: back. N: notes. F: fullscreen.</div>
+<div id="viewport"><div id="stage">
+
+<!-- 1 -->
+<section class="slide dark">
+  <p class="lead" style="font-size:26px">Live workshop for Bolt.new customers</p>
+  <h1 style="margin-top:28px">Losing regulars without noticing?</h1>
+  <p class="lead" style="margin-top:24px">Build a dashboard that notices for you, and sends a personal email in one click.</p>
+  <div class="strip big" aria-label="Six orders, then three missed"><i></i><i></i><i></i><i></i><i></i><i></i><i class="gap"></i><i class="gap"></i><i class="gap"></i></div>
+  <p class="strip-label">Six orders, four weeks apart. Then nothing.</p>
+  <div class="foot"><span>Thursday, Nov 19, 10:30 am PT. Hosted by Blake Arnsdorff</span><span>bolt.new</span></div>
+  <aside class="notes"><p>Live at 10:28. Hold here while people join.</p><p class="say">"Welcome in. Every business has regulars who quietly stop showing up. Nobody tells you they left. Today you'll build something that notices for you."</p><p>Ask: drop what you sell in the chat, and how often your customers come back.</p></aside>
+</section>
+
+<!-- 2 -->
+<section class="slide">
+  <h2>Here's the next hour</h2>
+  <ol class="steps body" style="max-width:1100px;font-size:26px">
+    <li style="margin-bottom:16px"><span>Decide who counts as gone quiet <span class="small">&nbsp;6 min</span></span></li>
+    <li style="margin-bottom:16px"><span>Build Ridgeline's website and a private dashboard <span class="small">&nbsp;20 min</span></span></li>
+    <li style="margin-bottom:16px"><span>Connect Resend and send a win-back email to yourself <span class="small">&nbsp;12 min</span></span></li>
+    <li style="margin-bottom:16px"><span>Brand the email and make it editable <span class="small">&nbsp;6 min</span></span></li>
+    <li style="margin-bottom:16px"><span>Track your repeat-customer rate <span class="small">&nbsp;5 min</span></span></li>
+    <li style="margin-bottom:16px"><span>Go live from your own email domain <span class="small">&nbsp;8 min</span></span></li>
+  </ol>
+  <p class="small" style="margin-top:12px">Bring a free Resend account, signed up with the inbox you want test emails sent to. We'll provide the sample data.</p>
+  <div class="foot"><span>Build a win-back dashboard</span><span>bolt.new</span></div>
+  <aside class="notes"><p class="say">"You'll leave with a dashboard that shows who's slipping away, a button that emails them, and one number that tells you whether it's working."</p><p>Drop the Resend sign-up link in chat now: resend.com. Ask the co-host to watch for people stuck on sign-up.</p></aside>
+</section>
+
+<!-- 3 -->
+<section class="slide">
+  <h2>A shop website, and a dashboard that notices</h2>
+  <div class="cols-62">
+    <div class="panel" style="padding:24px 28px">
+      <p style="font-family:var(--serif);font-size:30px">Ridgeline Coffee <span class="tag">Sample data</span></p>
+      <p class="small" style="font-size:18px;margin:4px 0 16px">46 customers, 21 regulars, 217 orders</p>
+      <p style="font-size:18px;font-weight:600;color:var(--muted)">7 regulars haven't ordered in 6 weeks</p>
+      <table class="ledger" style="font-size:20px"><tr><td>Marcus Hill</td><td>House Blend</td><td class="num rust">9 wk</td><td class="num"><span class="btn" style="font-size:15px;padding:6px 12px">Send win-back email</span></td></tr><tr><td>Rosa Delgado</td><td>Ethiopia Guji</td><td class="num rust">7 wk</td><td class="num"><span class="btn" style="font-size:15px;padding:6px 12px">Send win-back email</span></td></tr><tr><td>Leila Farah</td><td>House Blend</td><td class="num rust">6 wk</td><td class="num"><span class="btn" style="font-size:15px;padding:6px 12px">Send win-back email</span></td></tr></table>
+    </div>
+    <ol class="steps" style="margin-top:6px">
+      <li class="step"><span><b>Gone quiet.</b> Regulars who haven't come back in the weeks you choose.</span></li>
+      <li class="step"><span><b>One button.</b> A personal email through Resend, with their name and what they bought last.</span></li>
+      <li class="step"><span><b>One number.</b> Your repeat-customer rate, month to month.</span></li>
+    </ol>
+  </div>
+  <div class="foot"><span>Build a win-back dashboard</span><span>bolt.new</span></div>
+  <aside class="notes"><p>Click three times to light each part.</p><p class="say">"Nothing here is new data. You already have every order. The dashboard just does the noticing."</p></aside>
+</section>
+
+<!-- 4 -->
+<section class="slide">
+  <h2 style="margin-bottom:22px">Prompt 0: Ridgeline's website</h2>
+  <div class="prompt-wrap">
+    <div class="prompt-box">
+      <div class="prompt-head"><span>Paste into a new Bolt.new project</span><button class="copy" data-copy="p0">Copy prompt</button></div>
+      <pre class="prompt big" id="p0">Build a website for Ridgeline Coffee Roasters, a small-batch roaster that sells 12 oz bags online and at a Saturday farmers market.
+
+- Home: a headline about coffee roasted this week, a short story about the roaster, and market hours (Saturdays, 8 am to 1 pm).
+- Coffee: five coffees, each with a one-line tasting note and price: Ethiopia Guji, 12 oz ($19); Ridgeline House Blend, 12 oz ($16); Colombia Huila, 12 oz ($18); Swiss Water Decaf, 12 oz ($17); Night Shift Espresso, 2 lb ($42).
+- Reserve for pickup: a form with name, email, and coffee. It saves to an orders table (name, email, item, amount, date), using the coffee's price and today's date, then says "See you Saturday. Pay at pickup." Visitors can add orders but never read them.
+
+Style: warm and plain. Young Serif for headings, IBM Plex Sans for text, page #F4F5F1, accent #2F5D50. No gradients, stock photos, or emoji.
+
+Do not build: payments, a cart, or logins.</pre>
+    </div>
+    <div class="side-notes">
+      <div class="panel"><h3>Where orders come from</h3><p>Every pickup reservation lands in an orders table. The dashboard reads that same table.</p></div>
+      <div class="panel"><h3>Visitors add, never read</h3><p>Anyone can reserve a bag. Nobody can see anyone else's order.</p></div>
+      <div class="panel"><h3>Your business</h3><p>Swap in your own products, prices, and hours.</p></div>
+    </div>
+  </div>
+  <aside class="notes"><p>Paste Prompt 0 live, press Enter, and teach slides 5 to 7 while it builds (2 to 4 min).</p><p class="say">"First, the shop window. Ridgeline needs a site where regulars can reserve a bag. Every reservation becomes a row we can count later."</p><p>Backup: if it stalls past 5 minutes, open Backup A, which has the site already built.</p></aside>
+</section>
+
+<!-- 5 -->
+<section class="slide">
+  <h2>A regular already trusts you</h2>
+  <div class="cols">
+    <div class="panel body"><h3>A new customer</h3><p>Has to find you, learn your prices, and take a chance on the first order.</p></div>
+    <div class="panel body"><h3>A regular who went quiet</h3><p>Knows your product, your prices, and your name. Often they just got busy.</p></div>
+  </div>
+  <p class="lead" style="margin-top:48px">The hard part isn't the email. It's noticing in time.</p>
+  <div class="foot"><span>Build a win-back dashboard</span><span>bolt.new</span></div>
+  <aside class="notes"><p class="say">"Most owners find out a regular left months later, if ever. By then they've found someone else. A short, personal note in the first few weeks is the cheapest marketing you'll ever send."</p></aside>
+</section>
+
+<!-- 6 -->
+<section class="slide">
+  <h2>Start with regulars only</h2>
+  <div class="cols">
+    <div>
+      <p class="body"><b>A regular</b> has ordered or visited at least twice.</p>
+      <p class="body" style="margin-top:20px">One-time buyers never made it a habit, so a "we miss you" email reads strangely to them. Win them with a different message, later.</p>
+    </div>
+    <div class="panel">
+      <p class="strip-label">Regular: two or more orders</p>
+      <div class="strip" style="margin:14px 0 30px"><i></i><i></i><i></i><i class="gap"></i></div>
+      <p class="strip-label">One-time buyer: skip for now</p>
+      <div class="strip" style="margin:14px 0 0"><i></i><i class="gap" style="border-color:var(--rule)"></i></div>
+    </div>
+  </div>
+  <div class="foot"><span>Build a win-back dashboard</span><span>bolt.new</span></div>
+  <aside class="notes"><p class="say">"Two orders is the line. Someone who came once and never again is a different problem with a different fix."</p><p>In the sample data: 21 regulars, 25 one-time buyers.</p></aside>
+</section>
+
+<!-- 7 -->
+<section class="slide">
+  <h2>Set your quiet window: 1.5&nbsp;to&nbsp;2 times your usual gap</h2>
+  <table class="ledger" style="max-width:1300px">
+    <tr><th>Your kind of business</th><th class="num">Usual gap</th><th class="num">Gone quiet after</th></tr>
+    <tr><td>Coffee, food, or other refills</td><td class="num">4 weeks</td><td class="num">6 to 8 weeks</td></tr>
+    <tr><td>Massage, physio, or other wellness visits</td><td class="num">4 weeks</td><td class="num">6 to 8 weeks</td></tr>
+    <tr><td>Salon or barber</td><td class="num">6 weeks</td><td class="num">9 to 12 weeks</td></tr>
+    <tr><td>Fitness classes</td><td class="num">1 week</td><td class="num">2 to 3 weeks</td></tr>
+    <tr><td>Skincare or supplements</td><td class="num">8 weeks</td><td class="num">12 to 16 weeks</td></tr>
+    <tr><td>Detailing or seasonal service</td><td class="num">12 weeks</td><td class="num">18 to 24 weeks</td></tr>
+  </table>
+  <p class="small" style="margin-top:26px">Rules of thumb. Your own orders beat this table: find a few regulars, count the weeks between their visits, and double it.</p>
+  <div class="foot"><span>Build a win-back dashboard</span><span>bolt.new</span></div>
+  <aside class="notes"><p class="say">"Too short and you're emailing people who were about to come back anyway. Too long and they've already found someone else. Start at one and a half to two times your usual gap."</p><p>Ask chat: what's your usual gap, and what window would you pick? Read two answers.</p></aside>
+</section>
+
+<!-- 8 -->
+<section class="slide">
+  <h2>Meet today's example</h2>
+  <div class="cols">
+    <div class="body">
+      <p style="font-family:var(--serif);font-size:40px;margin-bottom:18px">Ridgeline Coffee Roasters</p>
+      <p>A small-batch roaster selling 12 oz bags online and at a Saturday market. Most regulars reorder about every four weeks.</p>
+      <p style="margin-top:18px">The owner noticed market Saturdays felt thinner but couldn't say who'd stopped coming. Quiet window: <b>6 weeks</b>.</p>
+    </div>
+    <div class="panel">
+      <h3>Run something else?</h3>
+      <p class="body" style="font-size:23px">Same steps. The prompts have blanks for your business, and everyone imports the same sample customers, so you can follow along today and swap in your own orders later.</p>
+    </div>
+  </div>
+  <div class="foot"><span>Build a win-back dashboard</span><span>bolt.new</span></div>
+  <aside class="notes"><p>Publish the site from Prompt 0, open the live link, and reserve a bag as Maya Chen, maya.chen@example.com. Your own email would add a new customer and move the numbers.</p><p class="say">"Fictional business, real pattern. Online shops and wellness businesses are among the biggest groups of Bolt.new customers who sell to repeat customers."</p></aside>
+</section>
+
+<!-- 9 -->
+<section class="slide dark">
+  <p class="lead" style="font-size:26px">Part 2</p>
+  <h1 style="margin-top:20px">Build the dashboard</h1>
+  <div class="foot"><span></span><span>bolt.new</span></div>
+  <aside class="notes"><p>Switch to Bolt.new: a fresh tab with the prompt box ready.</p></aside>
+</section>
+
+<!-- 10 -->
+<section class="slide">
+  <h2 style="margin-bottom:22px">Prompt 1: the private dashboard</h2>
+  <div class="prompt-wrap">
+    <div class="prompt-box">
+      <div class="prompt-head"><span>Paste into the same project as the site. Replace [YOUR EMAIL]</span><button class="copy" data-copy="p1">Copy prompt</button></div>
+      <pre class="prompt big" id="p1" style="font-size:16.5px;line-height:1.5">Add a private win-back dashboard at /dashboard. Don't link it from the site. Regulars buy 12 oz bags about every four weeks.
+
+- Email and password sign-in. Only [YOUR EMAIL] can sign up or read orders. Site visitors can still add orders.
+- Use the existing orders table. Add an "Import CSV" button for a file with columns name, email, item, amount, date. Importing the same file twice adds no duplicates. Add a "Clear all orders" button.
+- Start with example orders so the page isn't empty: 10 customers who order about every four weeks (7 still ordering, 3 whose last order was 7, 9, and 11 weeks ago) and 4 one-time buyers, using the site's coffees. Tag them "Example data" and remove them when I import a CSV.
+- Gone quiet: customers with 2 or more orders whose last order was over 6 weeks ago, with a picker from 4 to 12 weeks. Show name, last item, weeks since last order, and total orders, most orders first.
+- Repeat-customer rate: of the customers who ordered in the last 30 days, the percent who also have an order dated before those 30 days began. A customer whose only orders fall inside the period is new. Show it large with the change from the 30 days before, then the last six 30-day periods as simple bars, each worked out the same way.
+
+Use the site's fonts and colors. No gradients, cards, or emoji.</pre>
+    </div>
+    <div class="side-notes">
+      <div class="panel"><h3>Same project as the site</h3><p>It reads the orders table the reservation form writes to, plus anything you import.</p></div>
+      <div class="panel"><h3>Private from the start</h3><p>Only your email can sign up or read a row. A hidden link isn't private; sign-in is.</p></div>
+      <div class="panel"><h3>Your business</h3><p>Change how often your regulars buy, and the 6-week window.</p></div>
+    </div>
+  </div>
+  <aside class="notes"><p>Paste into the same project as the site, with your real email. Come back while it builds (2 to 4 min).</p><p class="say">"Same project, same orders table. The site fills it; the dashboard reads it. Use the same email you used for Resend."</p><p>Backup: if the build stalls past 5 minutes, open Backup A.</p></aside>
+</section>
+
+<!-- 11 -->
+<section class="slide">
+  <h2>Example data first, then the real file</h2>
+  <div class="cols">
+    <ol class="steps">
+      <li><span>Sign up on your dashboard. Example customers appear, tagged Example data, with 3 gone quiet.</span></li>
+      <li><span>Download <b>sample-orders.csv</b> from the link in chat.</span></li>
+      <li><span>Click <b>Import CSV</b>. The examples disappear and 46 customers load.</span></li>
+    </ol>
+    <div class="panel">
+      <h3>Your real customers, later</h3>
+      <p class="body" style="font-size:22px">Export your orders from Square, Shopify, Etsy, your booking tool, or a spreadsheet. Rename the column headers to match, then import.</p>
+      <div class="field">name,email,item,amount,date</div>
+      <p class="small" style="font-size:19px">Same button, same dashboard. Clear all orders first.</p>
+    </div>
+  </div>
+  <div class="foot"><span>Build a win-back dashboard</span><span>bolt.new</span></div>
+  <aside class="notes"><p>Drop the sample-orders.csv link in chat (it's on the deck site at /sample-orders.csv). Import it live on Backup A, which is signed in with an empty table.</p><p>Show the example data first: 3 regulars gone quiet. Then import. Maya Chen's reservation from the site shows as her latest order.</p><p class="say">"This file is fake customers. The button doesn't care: next week, put your real orders through it."</p></aside>
+</section>
+
+<!-- 12 -->
+<section class="slide">
+  <h2>Three ways to send. Pick yours now</h2>
+  <table class="ledger">
+    <tr><th style="white-space:nowrap">Way to send</th><th>Setup</th><th>Sends from</th><th>Best if</th></tr>
+    <tr><td style="white-space:nowrap"><b>Resend</b> (live today)</td><td>Free account and an API key, about 3 minutes</td><td>Your app, one click</td><td>You want sending built into your dashboard</td></tr>
+    <tr><td style="white-space:nowrap"><b>Your own inbox</b></td><td>None</td><td>Your Gmail or Outlook, as a draft</td><td>You send a handful a week and want replies in your inbox</td></tr>
+    <tr><td style="white-space:nowrap"><b>Your email tool</b></td><td>None</td><td>Mailchimp, Klaviyo, Square, or Shopify Email</td><td>You already send newsletters</td></tr>
+  </table>
+  <p class="small" style="margin-top:26px">Today we build Resend live. The other two work with the same dashboard and the same personal message.</p>
+  <div class="foot"><span>Build a win-back dashboard</span><span>bolt.new</span></div>
+  <aside class="notes"><p class="say">"Most of you have never wired up an email service, and you don't have to today. I'll do Resend live. If you'd rather send from your own inbox or your email tool, there's a prompt for that too."</p><p>Ask chat: which one are you picking? Resend people: start signing up now.</p></aside>
+</section>
+
+<!-- 13 -->
+<section class="slide">
+  <h2 style="margin-bottom:26px">Read the list</h2>
+  <div class="cols-62">
+    <div class="panel" style="padding:22px 26px">
+      <p style="font-size:18px;font-weight:600;color:var(--muted);margin-bottom:6px">7 regulars haven't ordered in 6 weeks</p>
+      <table class="ledger" style="font-size:20px">
+        <tr><th>Customer</th><th>Last item</th><th class="num">Quiet</th><th class="num">Orders</th></tr>
+        <tr><td>Marcus Hill</td><td>House Blend</td><td class="num rust">9 wk</td><td class="num">9</td></tr>
+        <tr><td>Rosa Delgado</td><td>Ethiopia Guji</td><td class="num rust">7 wk</td><td class="num">9</td></tr>
+        <tr><td>Leila Farah</td><td>House Blend</td><td class="num rust">6 wk</td><td class="num">9</td></tr>
+        <tr><td>Jonah Weiss</td><td>Ethiopia Guji</td><td class="num rust">12 wk</td><td class="num">8</td></tr>
+        <tr><td>Aiko Tanaka</td><td>Swiss Water Decaf</td><td class="num rust">10 wk</td><td class="num">8</td></tr>
+        <tr><td>Claire Dubois</td><td>Colombia Huila</td><td class="num rust">8 wk</td><td class="num">8</td></tr>
+        <tr><td>Ethan Brooks</td><td>Night Shift Espresso</td><td class="num rust">7 wk</td><td class="num">8</td></tr>
+      </table>
+    </div>
+    <div>
+      <table class="ledger"><tr><th>Quiet window</th><th class="num">Regulars flagged</th></tr><tr><td>4 weeks</td><td class="num">10</td></tr><tr><td><b>6 weeks</b></td><td class="num"><b>7</b></td></tr><tr><td>8 weeks</td><td class="num">4</td></tr></table>
+      <div class="panel" style="margin-top:28px"><h3>Checkpoint</h3><p class="body" style="font-size:22px">A private dashboard with a connected database, showing who's slipping away. Post "7" in chat when you see it.</p></div>
+    </div>
+  </div>
+  <aside class="notes"><p>On Backup A, right after the import, switch the window to 4 and 8 weeks.</p><p class="say">"Seven regulars, sorted by how loyal they've been. Marcus has ordered nine times and hasn't been back in nine weeks. That's the first email I'd send."</p><p>The file is dated for Nov 19. On the replay, everyone looks a few weeks quieter; the method is the same.</p></aside>
+</section>
+
+<!-- 14 -->
+<section class="slide dark">
+  <p class="lead" style="font-size:26px">Part 3</p>
+  <h1 style="margin-top:20px">Send a win-back email</h1>
+  <div class="foot"><span></span><span>bolt.new</span></div>
+  <aside class="notes"><p>Two seconds, then advance.</p></aside>
+</section>
+
+<!-- 15 -->
+<section class="slide">
+  <h2>Connect Resend in three steps</h2>
+  <div class="cols">
+    <ol class="steps">
+      <li><span>Sign up free at resend.com with the inbox you'll test with.</span></li>
+      <li><span>In Resend, open <b>API Keys</b> and create a key. Copy it now; you won't see it again.</span></li>
+      <li><span>In Bolt.new, click the <b>database icon</b>, then <b>Secrets</b>, and add it.</span></li>
+    </ol>
+    <div class="panel">
+      <h3>Database &gt; Secrets</h3>
+      <p class="small" style="font-size:18px">Name, exactly as written</p>
+      <div class="field">RESEND_API_KEY</div>
+      <p class="small" style="font-size:18px">Value</p>
+      <div class="field">re_&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;&#8226;</div>
+      <p class="small" style="font-size:19px">Not in a .env file, and not in a Supabase dashboard. If Bolt.new asks for it somewhere else, it's here.</p>
+    </div>
+  </div>
+  <div class="foot"><span>Build a win-back dashboard</span><span>bolt.new</span></div>
+  <aside class="notes"><p>Give chat 3 minutes. Never show your real key on screen; this slide is the walkthrough.</p><p class="say">"A key in Secrets lives on the server. Your page never sees it, so nobody can copy it out of your site."</p><p>If Secrets doesn't appear, the project has no database yet: run Prompt 1 first.</p></aside>
+</section>
+
+<!-- 16 -->
+<section class="slide">
+  <h2 style="margin-bottom:22px">Prompt 2: the send button</h2>
+  <div class="prompt-wrap">
+    <div class="prompt-box">
+      <div class="prompt-head"><span>Paste into the same project. Replace [YOUR EMAIL] with your Resend sign-up email</span><button class="copy" data-copy="p2">Copy prompt</button></div>
+      <pre class="prompt big" id="p2">Add a "Send win-back email" button to each Gone quiet row, sent through Resend.
+
+- Send from a server function using a secret named RESEND_API_KEY, which I'll add in Database &gt; Secrets. Only [YOUR EMAIL] can use it.
+- Test mode: send every email to [YOUR EMAIL] from onboarding@resend.dev, with a line saying who it would have gone to.
+- Subject: "{first name}, it's been a while". Body: "Hi {first name}, it's been {weeks} weeks since your last {last item}. We just roasted a fresh batch, and I'd love to set one aside for you. Just reply to this email." Signed Ridgeline Coffee Roasters.
+- Show a preview first. After sending, mark the row "Emailed" with the date. Show any error word for word.</pre>
+    </div>
+    <div class="side-notes">
+      <div class="panel"><h3>A server function sends it</h3><p>The key stays on the server, and only your signed-in email can press Send.</p></div>
+      <div class="panel"><h3>{Braces} fill for each customer</h3><p>First name, weeks since their last order, and what they bought last.</p></div>
+      <div class="panel"><h3>Your business</h3><p>Change the fresh-batch line and the signature to yours.</p></div>
+    </div>
+  </div>
+  <aside class="notes"><p>Paste into Backup A live. While it builds, walk slides 17 and 18.</p><p class="say">"The page only sends the customer's email. The server looks up everything else itself, so nobody can trick it into emailing someone else."</p></aside>
+</section>
+
+<!-- 17 -->
+<section class="slide">
+  <h2>Two details make it personal</h2>
+  <div class="cols">
+    <div class="email">
+      <div class="meta"><div>To: rosa.delgado@example.com</div><div>Subject: Rosa, it's been a while</div></div>
+      <div class="bodytext">
+        <p>Hi <span class="fill">Rosa</span>,</p>
+        <p>It's been <span class="fill">7</span> weeks since your last <span class="fill">Ethiopia Guji</span>. We just roasted a fresh batch, and I'd love to set one aside for you.</p>
+        <p>Just reply to this email and I'll have it ready.</p>
+        <p>Thanks for being a regular,<br>Ridgeline Coffee Roasters</p>
+      </div>
+    </div>
+    <div class="body">
+      <p class="step"><b>Their name and what they bought last.</b> Proof you noticed them, not a list.</p>
+      <p class="step" style="margin-top:26px"><b>A reply, not a link.</b> Replies come straight to your inbox and start a real conversation.</p>
+      <p class="step" style="margin-top:26px"><b>No discount.</b> Lead with being remembered. Save offers for people who don't reply.</p>
+    </div>
+  </div>
+  <div class="foot"><span>Build a win-back dashboard</span><span>bolt.new</span></div>
+  <aside class="notes"><p>Click to reveal each point. At 11:05, Prompt 3 makes this email editable and branded.</p><p class="say">"Every highlighted word comes from the order history. Write it the way you'd write to one person, because you are."</p></aside>
+</section>
+
+<!-- 18 -->
+<section class="slide">
+  <h2>Test mode: every email comes to you</h2>
+  <div class="cols">
+    <div class="body">
+      <p>Until you verify your own domain, Resend only delivers to the email your account uses. So today, every send lands in your inbox, with a line saying who it was meant for.</p>
+      <p style="margin-top:22px">The sample customers use example.com addresses, which never receive mail.</p>
+    </div>
+    <div class="email">
+      <div class="meta"><div>From: Ridgeline Coffee Roasters &lt;onboarding@resend.dev&gt;</div><div>Delivered to: you</div></div>
+      <div class="bodytext"><p class="testline">Test mode: this email would have gone to rosa.delgado@example.com</p><p>Hi Rosa,</p><p class="small">...</p></div>
+    </div>
+  </div>
+  <div class="foot"><span>Build a win-back dashboard</span><span>bolt.new</span></div>
+  <aside class="notes"><p class="say">"If you get an error about sending only to your own address, the email in your prompt doesn't match your Resend account. Make them match."</p><p>Check Backup A. If Prompt 2 finished, move on; if not, use Backup B on the next slide.</p></aside>
+</section>
+
+<!-- 19 -->
+<section class="slide">
+  <h2>Send it, then check your inbox</h2>
+  <div class="cols">
+    <ol class="steps">
+      <li><span>Click <b>Send win-back email</b> on Rosa Delgado.</span></li>
+      <li><span>Read the preview: To, Delivered to, subject, and body.</span></li>
+      <li><span>Press <b>Send</b>. The row changes to Emailed, with today's date.</span></li>
+      <li><span>Open your inbox. Look for Ridgeline Coffee Roasters.</span></li>
+    </ol>
+    <div class="panel"><h3>Checkpoint</h3><p class="body" style="font-size:24px">Your first win-back email, sent from your own project through Resend. Post "landed" in chat.</p><p class="small" style="margin-top:20px;font-size:19px">Nothing after a minute? Check spam: test emails from onboarding@resend.dev often land there until you verify a domain in Part 5.</p></div>
+  </div>
+  <div class="foot"><span>Build a win-back dashboard</span><span>bolt.new</span></div>
+  <aside class="notes"><p>Do it live on Backup A, or Backup B if A isn't ready. Show the email in spam on purpose: "this is why Part 5 exists." Your Gmail filter keeps it findable.</p><p class="say">"That's a real email, from your own app, through a real email service. Connecting a service like this is the step most people never get to."</p></aside>
+</section>
+
+<!-- 20 -->
+<section class="slide">
+  <h2 style="margin-bottom:22px">Prompt 3: an email that looks like Ridgeline</h2>
+  <div class="prompt-wrap">
+    <div class="prompt-box">
+      <div class="prompt-head"><span>Paste into the same project. Replace [YOUR EMAIL]</span><button class="copy" data-copy="p3">Copy prompt</button></div>
+      <pre class="prompt big" id="p3">Make the win-back email editable and branded.
+
+- Add an "Email template" page to the dashboard with the subject and body saved in the database, editable by me. Keep {first name}, {weeks}, and {last item} as fill-ins, listed beside the editor.
+- In the preview, let me edit the subject and body for that one customer before sending.
+- Send it as a branded HTML email: "Ridgeline Coffee Roasters" in a serif heading in #2F5D50, the body in a readable sans serif on white, and a footer with "Saturdays at the farmers market, 8 am to 1 pm" and a "Reserve for pickup" link to the site. Also send a plain-text version.
+- Only [YOUR EMAIL] can read or change the template.</pre>
+    </div>
+    <div class="side-notes">
+      <div class="panel"><h3>Edit before you send</h3><p>A saved template for every email, plus changes for one customer right in the preview.</p></div>
+      <div class="panel"><h3>Branded, not fancy</h3><p>A wordmark, your color, and a footer with hours and a Reserve link. It renders in every email app.</p></div>
+      <div class="panel"><h3>A plain-text copy too</h3><p>Real emails carry both versions, which helps them read as real.</p></div>
+    </div>
+  </div>
+  <aside class="notes"><p>Paste into Backup A live. While it builds, open the email from slide 19 and point at what's missing: no brand, no way back to the site.</p><p class="say">"Your regulars know your shop. The email should look like it came from your shop."</p><p>When it lands: edit the template live, then send to Leila Farah and show the branded email. It may still land in spam; that's Part 5. Backup B if the build stalls.</p></aside>
+</section>
+
+<!-- 21 -->
+<section class="slide dark">
+  <p class="lead" style="font-size:26px">Part 4</p>
+  <h1 style="margin-top:20px">Is your outreach working?</h1>
+  <div class="foot"><span></span><span>bolt.new</span></div>
+  <aside class="notes"><p>Two seconds, then advance.</p></aside>
+</section>
+
+<!-- 22 -->
+<section class="slide">
+  <h2>One number: your repeat-customer rate</h2>
+  <div class="cols">
+    <div>
+      <p class="lead">Of the customers who ordered this month, how many had ordered before?</p>
+      <p class="body" style="margin-top:30px">11 of the 17 customers who ordered in the last 30 days were returning customers.</p>
+    </div>
+    <div class="panel"><p class="bignum">65%</p><p class="body" style="margin-top:12px">11 of 17 customers had ordered before</p><p class="rust" style="font-size:24px;margin-top:8px">Down 14 pts</p></div>
+  </div>
+  <div class="foot"><span>Build a win-back dashboard</span><span>bolt.new</span></div>
+  <aside class="notes"><p class="say">"When regulars drift away, this number drops first. When win-backs work, it climbs back."</p><p>Months are 30-day blocks counted back from today, so the number moves daily. Check it on the same day each month.</p></aside>
+</section>
+
+<!-- 23 -->
+<section class="slide">
+  <h2>Read it month to month</h2>
+  <div class="bars" style="max-width:1150px">
+    <div class="bar"><b>88%</b><span style="height:88%"></span><small>5 mo ago</small></div>
+    <div class="bar"><b>88%</b><span style="height:88%"></span><small>4 mo ago</small></div>
+    <div class="bar"><b>84%</b><span style="height:84%"></span><small>3 mo ago</small></div>
+    <div class="bar"><b>84%</b><span style="height:84%"></span><small>2 mo ago</small></div>
+    <div class="bar"><b>78%</b><span style="height:78%"></span><small>1 mo ago</small></div>
+    <div class="bar now"><b>65%</b><span style="height:65%"></span><small>Last 30 days</small></div>
+  </div>
+  <p class="body" style="margin-top:44px;max-width:1200px">Steady for four months, then a slide as regulars went quiet. Those seven names are the reason. The goal for next month: back above 78%.</p>
+  <div class="foot"><span>Build a win-back dashboard</span><span>bolt.new</span></div>
+  <aside class="notes"><p>Show the real bars on Backup A first; come back here if the share is hard to read.</p><p class="say">"Look for the turn, not a benchmark. Your own last month is the only comparison that matters."</p></aside>
+</section>
+
+<!-- 24 -->
+<section class="slide">
+  <h2>Make the call next month</h2>
+  <table class="ledger" style="font-size:23px">
+    <tr><th>What you see</th><th>What it means</th><th>Your move</th></tr>
+    <tr><td>Rate climbs, emailed regulars came back</td><td>Win-backs work</td><td>Keep sending at the same window</td></tr>
+    <tr><td>Emailed regulars came back, rate flat</td><td>New customers aren't returning</td><td>Look at the second order, not just win-backs</td></tr>
+    <tr><td>10+ emails, nobody came back</td><td>The message misses</td><td>Change the email before the window</td></tr>
+    <tr><td>Dozens flagged every week</td><td>Window too short</td><td>Widen it by two weeks</td></tr>
+    <tr><td>Almost nobody flagged</td><td>Window too long</td><td>Narrow it by two weeks</td></tr>
+  </table>
+  <div class="foot"><span>Build a win-back dashboard</span><span>bolt.new</span></div>
+  <aside class="notes"><p class="say">"Who's slipping away, and one number that shows whether your outreach works. That's what you came for."</p><p>The came-back bonus prompt adds a list of emailed customers who ordered again.</p></aside>
+</section>
+
+<!-- 25 -->
+<section class="slide">
+  <h2>Go live: send from your own domain</h2>
+  <div class="cols">
+    <ol class="steps">
+      <li><span>In Resend, open <b>Domains</b>, then <b>Add Domain</b>. Use a domain you own, not a bolt.host address.</span></li>
+      <li><span>Copy the DNS records Resend shows you.</span></li>
+      <li><span>Add them where your domain lives: Bolt.new Settings &gt; Cloud &gt; Custom domains, or your registrar.</span></li>
+      <li><span>Wait for <b>Verified</b>, usually 10 to 20 minutes, sometimes a few hours. Then run Prompt 4.</span></li>
+    </ol>
+    <div class="panel"><h3>Why it matters</h3><p class="body" style="font-size:23px">A verified domain proves the email is really from you, so it reaches inboxes instead of spam, and test mode can turn off.</p></div>
+  </div>
+  <div class="foot"><span>Build a win-back dashboard</span><span>bolt.new</span></div>
+  <aside class="notes"><p>Show your Resend Domains page with the domain already Verified. You set this up before the session; never wait on DNS live.</p><p class="say">"Today every email came to you, and it landed in spam. A verified domain fixes both: the same button reaches real customers, from an address that proves it's you."</p></aside>
+</section>
+
+<!-- 26 -->
+<section class="slide">
+  <h2 style="margin-bottom:22px">Prompt 4: switch off test mode</h2>
+  <div class="prompt-wrap">
+    <div class="prompt-box">
+      <div class="prompt-head"><span>Run after your domain shows Verified in Resend</span><button class="copy" data-copy="p4">Copy prompt</button></div>
+      <pre class="prompt big" id="p4">My domain [YOURDOMAIN.COM] is verified in Resend. Add a "Test mode" switch to the dashboard, on by default. When it's off, send each email to the customer's own address from "Ridgeline Coffee Roasters &lt;hello@[YOURDOMAIN.COM]&gt;" with reply-to [YOUR EMAIL], and drop the test-mode line. With test mode off, the preview shows the real address and asks me to confirm before sending.
+
+Add a footer to every email with my business address, [BUSINESS ADDRESS], and "Prefer not to hear from us? Reply and we'll stop." Add a "Don't email" toggle for each customer that the send button respects.</pre>
+    </div>
+    <div class="side-notes">
+      <div class="panel"><h3>A switch, not a one-way change</h3><p>Test mode stays on until you flip it, and live sends ask you to confirm the real address.</p></div>
+      <div class="panel"><h3>The footer every email needs</h3><p>Your address and an easy way to say no thanks.</p></div>
+      <div class="panel"><h3>Try it on yourself first</h3><p>Add one customer with your own email, then send to them before anyone else.</p></div>
+    </div>
+  </div>
+  <aside class="notes"><p>Before pasting: import demo-customer.csv (Jordan Ellis, your personal email, quiet 9 weeks). Paste Prompt 4 into Backup A. When it lands, flip Test mode off, send to Jordan Ellis only, and open your personal inbox: it should land in the inbox, from hello@ your domain.</p><p class="say">"Same button, real address, your own domain. That's the difference between a demo and a tool you use on Monday."</p><p>Never press Send on the sample customers with test mode off: example.com addresses bounce, and bounces hurt your domain. Backup B if the build stalls.</p></aside>
+</section>
+
+<!-- 27 -->
+<section class="slide">
+  <h2>Before you email real customers</h2>
+  <ol class="steps" style="max-width:1250px">
+    <li><span>Your domain shows Verified in Resend.</span></li>
+    <li><span>Every email has your business address and an easy way to say no thanks. Check your local rules.</span></li>
+    <li><span>Only email people who bought from you. Never a list you bought.</span></li>
+    <li><span>Read each preview before you press Send. One email, then wait.</span></li>
+  </ol>
+  <div class="foot"><span>Build a win-back dashboard</span><span>bolt.new</span></div>
+  <aside class="notes"><p class="say">"These are people who already like you. Keep it that way: one personal note, easy to decline."</p><p>Not legal advice. Europe and Canada have stricter rules.</p></aside>
+</section>
+
+<!-- 28 -->
+<section class="slide">
+  <h2 style="margin-bottom:24px">Bonus prompts for after the session</h2>
+  <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:28px;flex:1;min-height:0">
+    <div class="prompt-box"><div class="prompt-head"><span>See who came back</span><button class="copy" data-copy="bc">Copy prompt</button></div><pre class="prompt big" id="bc">Add a "Came back" list under Gone quiet: customers marked Emailed in the last 60 days, and whether they've ordered since. Above it, a line like "4 of 9 emailed customers came back."</pre></div>
+    <div class="prompt-box"><div class="prompt-head"><span>Before they go quiet</span><button class="copy" data-copy="bd">Copy prompt</button></div><pre class="prompt big" id="bd">Add a "Due soon" list above Gone quiet: regulars whose usual gap between orders has passed but who aren't quiet yet, with the date they'd normally order.</pre></div>
+    <div class="prompt-box"><div class="prompt-head"><span>Phone check</span><button class="copy" data-copy="bp">Copy prompt</button></div><pre class="prompt big" id="bp">Make every screen work on a phone 375 pixels wide. Fix anything cut off, overlapping, too small to tap, or scrolling sideways. Stack Gone quiet above the repeat-customer rate.</pre></div>
+  </div>
+  <aside class="notes"><p>Mention, don't run.</p><p class="say">"All of these are in the description of the recording, so you don't need to copy them now."</p></aside>
+</section>
+
+<!-- 29 -->
+<section class="slide">
+  <h2>Your dashboards, live</h2>
+  <ol class="steps" style="max-width:1250px">
+    <li><span>Does the quiet window match your usual gap?</span></li>
+    <li><span>Would you be glad to get this email?</span></li>
+    <li><span>Is the dashboard private to your email?</span></li>
+  </ol>
+  <p class="small" style="margin-top:10px">Stuck on an error? Paste it in chat, word for word.</p>
+  <div class="foot"><span>Build a win-back dashboard</span><span>bolt.new</span></div>
+  <aside class="notes"><p>Two or three attendees, about two minutes each, one fix each. Errors first: they help everyone.</p><p>No submissions? Walk the Ridgeline dashboard against slide 23 and ask chat which window they'd pick.</p></aside>
+</section>
+
+<!-- 30 -->
+<section class="slide">
+  <h2>Questions</h2>
+  <div class="cols" style="gap:36px">
+    <div class="panel"><h3>Why did the email come to me?</h3><p class="body step" style="font-size:22px">Test mode. Until you verify a domain, Resend only delivers to your own address.</p></div>
+    <div class="panel"><h3>It says RESEND_API_KEY doesn't exist</h3><p class="body step" style="font-size:22px">Add it in Database &gt; Secrets, spelled exactly. Not .env.</p></div>
+    <div class="panel"><h3>Can I email past customers?</h3><p class="body step" style="font-size:22px">Usually, if they bought from you. Add your address and an easy opt-out, and check your local rules.</p></div>
+    <div class="panel"><h3>Can it send automatically?</h3><p class="body step" style="font-size:22px">Later, yes. Start by clicking, so you read every email first.</p></div>
+  </div>
+  <div class="foot"><span>Build a win-back dashboard</span><span>bolt.new</span></div>
+  <aside class="notes"><p>Chat questions first. To fill time: read a question, ask chat, then click to reveal. More in the run of show doc.</p></aside>
+</section>
+
+<!-- 31 -->
+<section class="slide dark">
+  <h1>Notice them early. Write like you mean it.</h1>
+  <div class="strip"><i></i><i></i><i></i><i></i><i class="gap"></i><i></i><i></i></div>
+  <p class="lead">Next: Tuesday, Nov 24. Leaving money on the table? Add upsells to your booking form. luma.com/bolt-vfwi</p>
+  <div class="foot"><span>Come build your business with Bolt.new</span><span>bolt.new</span></div>
+  <aside class="notes"><p class="say">"Your homework: verify your domain, import your real orders, and send three win-back emails this week. Check your rate on the same day next month."</p><p>Drop the Nov 24 link in chat. Thank the co-host. End stream.</p></aside>
+</section>
+
+</div></div>
+<div id="notes" aria-live="polite"></div>
+<div id="nav"><button class="navbtn" id="prev" aria-label="Previous">Back</button><span id="count" class="navbtn" style="cursor:default"></span><button class="navbtn" id="next" aria-label="Next">Next</button></div>
+<script>
+(function(){
+  var slides=[].slice.call(document.querySelectorAll('.slide'));
+  var stage=document.getElementById('stage'), notes=document.getElementById('notes'), count=document.getElementById('count');
+  var i=0;
+  function fit(){var s=Math.min(window.innerWidth/1600,window.innerHeight/900);stage.style.transform='scale('+s+')';}
+  function steps(){return [].slice.call(slides[i].querySelectorAll('.step'));}
+  function show(n,revealAll){
+    i=Math.max(0,Math.min(slides.length-1,n));
+    slides.forEach(function(s,k){s.classList.toggle('active',k===i);});
+    steps().forEach(function(e){e.classList.toggle('on',!!revealAll);});
+    var a=slides[i].querySelector('aside.notes'); notes.innerHTML=a?a.innerHTML:'';
+    count.textContent=(i+1)+' / '+slides.length;
+    if(location.hash!=='#'+(i+1)) history.replaceState(null,'','#'+(i+1));
+  }
+  function next(){var h=steps().filter(function(e){return !e.classList.contains('on');});if(h.length){h[0].classList.add('on');}else{show(i+1,false);}}
+  function prev(){var on=steps().filter(function(e){return e.classList.contains('on');});if(on.length){on[on.length-1].classList.remove('on');}else{show(i-1,true);}}
+  document.addEventListener('keydown',function(e){
+    if(e.target.closest&&e.target.closest('pre'))return;
+    if(['ArrowRight','PageDown',' '].indexOf(e.key)>-1){e.preventDefault();next();}
+    else if(['ArrowLeft','PageUp'].indexOf(e.key)>-1){e.preventDefault();prev();}
+    else if(e.key==='n'||e.key==='N'){notes.classList.toggle('show');}
+    else if(e.key==='f'||e.key==='F'){if(!document.fullscreenElement){document.documentElement.requestFullscreen&&document.documentElement.requestFullscreen();}else{document.exitFullscreen();}}
+  });
+  document.getElementById('next').onclick=next; document.getElementById('prev').onclick=prev;
+  document.querySelectorAll('button.copy').forEach(function(b){
+    b.addEventListener('click',function(){
+      var t=document.getElementById(b.getAttribute('data-copy')).textContent;
+      function done(){b.textContent='Copied';clearTimeout(b._t);b._t=setTimeout(function(){b.textContent='Copy prompt';},1600);}
+      if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(t).then(done,fallback);}else{fallback();}
+      function fallback(){var ta=document.createElement('textarea');ta.value=t;document.body.appendChild(ta);ta.select();try{document.execCommand('copy');done();}catch(e){}document.body.removeChild(ta);}
+    });
+  });
+  window.addEventListener('resize',fit); fit();
+  window.addEventListener('hashchange',function(){var n=parseInt(location.hash.slice(1),10);if(!isNaN(n)&&n-1!==i)show(n-1,false);});
+  var h=parseInt(location.hash.slice(1),10); show(isNaN(h)?0:h-1,false);
+})();
+</script>
+</body>
+</html>
