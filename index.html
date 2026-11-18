@@ -95,6 +95,25 @@ a.dl:focus-visible{outline:3px solid #9CCBFF;outline-offset:3px}
 button.copy:active{transform:scale(.97)}
 button.copy.copied{background:var(--pass)}
 button.copy:focus-visible,.navbtn:focus-visible{outline:3px solid #9CCBFF;outline-offset:3px}
+.head-actions{display:flex;gap:10px;flex:none}
+button.fillbtn{font:600 18px var(--sans);background:transparent;color:#E9E7F0;border:1px solid #3A3A46;border-radius:10px;padding:0 18px;cursor:pointer;min-height:44px;white-space:nowrap;transition:border-color .2s var(--ease),background .2s var(--ease)}
+button.fillbtn:hover{border-color:#9CCBFF;background:#ffffff0d}
+button.fillbtn:focus-visible{outline:3px solid #9CCBFF;outline-offset:3px}
+pre.prompt mark.filled{background:#1488FC40;color:#fff;border-radius:3px;padding:0 2px}
+#fill{width:min(520px,calc(100vw - 32px));border:1px solid var(--rule);border-radius:14px;padding:0;background:var(--surface);color:var(--ink);font:17px/1.5 var(--sans);box-shadow:0 30px 80px -30px #00012866}
+#fill::backdrop{background:#0C0C0F99}
+#fill form{padding:28px 28px 24px}
+#fill h3{margin:0 0 6px;font-size:24px;font-weight:600;letter-spacing:-.01em}
+#fill .hint{margin:0 0 20px;color:var(--muted);font-size:15px}
+#fill label{display:block;font-size:15px;font-weight:600;margin:0 0 6px}
+#fill input{display:block;width:100%;box-sizing:border-box;font:16px var(--sans);color:var(--ink);background:var(--pale);border:1px solid var(--rule);border-radius:8px;padding:11px 12px;margin:0 0 16px}
+#fill input:focus{outline:2px solid var(--blue);outline-offset:1px;border-color:var(--blue)}
+#fill .fill-actions{display:flex;justify-content:space-between;gap:12px;margin-top:6px}
+#fill .fill-actions button{font:600 16px var(--sans);border-radius:10px;padding:0 20px;min-height:44px;cursor:pointer}
+#fill .reset{background:transparent;color:var(--ink);border:1px solid var(--rule)}
+#fill .reset:hover{border-color:var(--muted)}
+#fill .done{background:var(--blue);color:#fff;border:0}
+#fill .done:hover{background:#0B76E3}
 .side-notes .panel{padding:22px 26px;margin-bottom:18px}
 .side-notes h3{font-size:20px;margin-bottom:6px}
 .side-notes p{font-size:19px;line-height:1.45;color:var(--muted)}
@@ -187,6 +206,7 @@ button.copy:focus-visible,.navbtn:focus-visible{outline:3px solid #9CCBFF;outlin
   .prompt-box{flex:none}
   .prompt-head{flex-wrap:wrap;padding:12px 14px;font-size:14px;gap:10px}
   button.copy{font-size:16px;min-height:44px;padding:0 18px}
+  button.fillbtn{font-size:16px;padding:0 14px}
   a.dl{font-size:16px!important;min-height:44px;padding:0 18px;margin-top:10px}
   pre.prompt,pre.prompt.big{flex:none;overflow:visible;font-size:14px;line-height:1.55;padding:16px}
   .bars{height:180px;gap:8px}
@@ -365,7 +385,7 @@ Do not build: payments, a cart, or logins.</pre>
   <h2 style="margin-bottom:22px">Prompt 1: the private dashboard</h2>
   <div class="prompt-wrap">
     <div class="prompt-box">
-      <div class="prompt-head"><span>Paste into the same project as the site. Replace [YOUR EMAIL]</span><button class="copy" data-copy="p1">Copy prompt</button></div>
+      <div class="prompt-head"><span>Paste into the same project as the site. Replace [YOUR EMAIL]</span><span class="head-actions"><button class="fillbtn" type="button">Fill in details</button><button class="copy" data-copy="p1">Copy prompt</button></span></div>
       <pre class="prompt big" id="p1">Add a private win-back dashboard at /dashboard. Don't link it from the site. Regulars buy 12 oz bags about every four weeks.
 
 - A sign-in page with both Sign in and Create account, by email and password, limited to [YOUR EMAIL]. The database itself must check that email on every table, now and in later changes, so another account sees nothing even if it signs up. Site visitors can still add orders but never read them.
@@ -480,7 +500,7 @@ Use the site's fonts and colors. Solid buttons with readable text, never outline
   <h2 style="margin-bottom:22px">Prompt 2: the send button</h2>
   <div class="prompt-wrap">
     <div class="prompt-box">
-      <div class="prompt-head"><span>Paste into the same project. Replace [YOUR EMAIL] with your Resend sign-up email</span><button class="copy" data-copy="p2">Copy prompt</button></div>
+      <div class="prompt-head"><span>Paste into the same project. Replace [YOUR EMAIL] with your Resend sign-up email</span><span class="head-actions"><button class="fillbtn" type="button">Fill in details</button><button class="copy" data-copy="p2">Copy prompt</button></span></div>
       <pre class="prompt big" id="p2">Add a "Send win-back email" button to each Gone quiet row, sent through Resend.
 
 - Send from a server function using a secret named RESEND_API_KEY, which I'll add in Database &gt; Secrets. Only [YOUR EMAIL] can use it.
@@ -559,7 +579,7 @@ Use the site's fonts and colors. Solid buttons with readable text, never outline
   <h2 style="margin-bottom:22px">Prompt 3: an email that looks like Ridgeline</h2>
   <div class="prompt-wrap">
     <div class="prompt-box">
-      <div class="prompt-head"><span>Paste into the same project. Replace [YOUR EMAIL]</span><button class="copy" data-copy="p3">Copy prompt</button></div>
+      <div class="prompt-head"><span>Paste into the same project. Replace [YOUR EMAIL]</span><span class="head-actions"><button class="fillbtn" type="button">Fill in details</button><button class="copy" data-copy="p3">Copy prompt</button></span></div>
       <pre class="prompt big" id="p3">Make the win-back email editable and branded.
 
 - Add an "Email template" page to the dashboard with the subject and body saved in the database, editable by me. Keep {first name}, {weeks}, and {last item} as fill-ins, listed beside the editor.
@@ -658,7 +678,7 @@ Use the site's fonts and colors. Solid buttons with readable text, never outline
   <h2 style="margin-bottom:22px">Prompt 4: switch off test mode</h2>
   <div class="prompt-wrap">
     <div class="prompt-box">
-      <div class="prompt-head"><span>Run after your domain shows Verified in Resend</span><button class="copy" data-copy="p4">Copy prompt</button></div>
+      <div class="prompt-head"><span>Run after your domain shows Verified in Resend</span><span class="head-actions"><button class="fillbtn" type="button">Fill in details</button><button class="copy" data-copy="p4">Copy prompt</button></span></div>
       <pre class="prompt big" id="p4">My domain [YOURDOMAIN.COM] is verified in Resend. Add a Test mode switch to the dashboard with its state written beside it. It starts on, stays on after a reload, and the email preview always says which mode is on. With test mode off, send each email to the customer's own address from "Ridgeline Coffee Roasters &lt;hello@[YOURDOMAIN.COM]&gt;" with reply-to [YOUR EMAIL], drop the test-mode line, and have the preview show the real address and ask me to confirm before sending. Add "Send a live test" to the preview: it sends that exact email from hello@[YOURDOMAIN.COM] to an address I type, whatever the switch says.
 
 Add a footer to every email with my business address, [BUSINESS ADDRESS], and "Prefer not to hear from us? Reply and we'll stop." Give each Gone quiet row a small "..." menu with "Mark as opted out" (or "Undo opt-out"). The Status column shows one thing per row: a red "Opted out" tag, otherwise "Emailed" with the date, otherwise the send button. Opted-out customers can't be emailed.</pre>
@@ -737,6 +757,19 @@ Add a footer to every email with my business address, [BUSINESS ADDRESS], and "P
 </div></div>
 <div id="progress"></div>
 <div id="notes" aria-live="polite"></div>
+<dialog id="fill" aria-labelledby="fill-title">
+  <form method="dialog">
+    <h3 id="fill-title">Your details</h3>
+    <p class="hint">Fills every prompt in the deck. Empty fields stay as [BRACKETS]. Saved only in this browser.</p>
+    <label for="f-email">Your email, the one you signed up to Resend with</label>
+    <input id="f-email" data-token="[YOUR EMAIL]" type="email" autocomplete="off" placeholder="you@example.com">
+    <label for="f-domain">Your domain</label>
+    <input id="f-domain" data-token="[YOURDOMAIN.COM]" type="text" autocomplete="off" placeholder="yourdomain.com">
+    <label for="f-address">Your business address</label>
+    <input id="f-address" data-token="[BUSINESS ADDRESS]" type="text" autocomplete="off" placeholder="123 Main St, Portland, OR">
+    <div class="fill-actions"><button type="button" class="reset">Reset prompts</button><button class="done">Done</button></div>
+  </form>
+</dialog>
 <script>
 (function(){
   var slides=[].slice.call(document.querySelectorAll('.slide'));
@@ -757,7 +790,8 @@ Add a footer to every email with my business address, [BUSINESS ADDRESS], and "P
   function next(){var h=steps().filter(function(e){return !e.classList.contains('on');});if(h.length){h[0].classList.add('on');}else{show(i+1,false);}}
   function prev(){var on=steps().filter(function(e){return e.classList.contains('on');});if(on.length){on[on.length-1].classList.remove('on');}else{show(i-1,true);}}
   document.addEventListener('keydown',function(e){
-    if(e.target.closest&&e.target.closest('pre'))return;
+    if(e.target.closest&&e.target.closest('pre,input,textarea,dialog'))return;
+    if(dlg.open)return;
     if(['ArrowRight','PageDown',' '].indexOf(e.key)>-1){e.preventDefault();next();}
     else if(['ArrowLeft','PageUp'].indexOf(e.key)>-1){e.preventDefault();prev();}
     else if(e.key==='n'||e.key==='N'){notes.classList.toggle('show');}
@@ -771,6 +805,27 @@ Add a footer to every email with my business address, [BUSINESS ADDRESS], and "P
       function fallback(){var ta=document.createElement('textarea');ta.value=t;document.body.appendChild(ta);ta.select();try{document.execCommand('copy');done();}catch(e){}document.body.removeChild(ta);}
     });
   });
+  var dlg=document.getElementById('fill'), inputs=[].slice.call(dlg.querySelectorAll('input')), KEY='winback-details';
+  var fillable=[].slice.call(document.querySelectorAll('pre.prompt')).filter(function(p){return /\[(YOUR EMAIL|YOURDOMAIN\.COM|BUSINESS ADDRESS)\]/.test(p.textContent);});
+  fillable.forEach(function(p){p._orig=p.textContent;});
+  function esc(t){return t.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+  function clean(inp){var v=inp.value.trim();if(inp.id==='f-domain')v=v.replace(/^https?:\/\//i,'').replace(/^www\./i,'').replace(/\/.*$/,'');return v;}
+  function apply(){
+    var vals={},any=false;
+    inputs.forEach(function(inp){var v=clean(inp);if(v){vals[inp.getAttribute('data-token')]=v;any=true;}});
+    fillable.forEach(function(p){
+      if(!any){p.textContent=p._orig;return;}
+      p.innerHTML=esc(p._orig).replace(/\[(YOUR EMAIL|YOURDOMAIN\.COM|BUSINESS ADDRESS)\]/g,function(m){return vals[m]?'<mark class="filled">'+esc(vals[m])+'</mark>':m;});
+    });
+    document.querySelectorAll('button.fillbtn').forEach(function(b){b.textContent=any?'Edit details':'Fill in details';});
+    try{if(any){var o={};inputs.forEach(function(inp){o[inp.id]=inp.value;});localStorage.setItem(KEY,JSON.stringify(o));}else{localStorage.removeItem(KEY);}}catch(e){}
+  }
+  try{var saved=JSON.parse(localStorage.getItem(KEY)||'null');if(saved)inputs.forEach(function(inp){if(typeof saved[inp.id]==='string')inp.value=saved[inp.id];});}catch(e){}
+  apply();
+  inputs.forEach(function(inp){inp.addEventListener('input',apply);});
+  document.querySelectorAll('button.fillbtn').forEach(function(b){b.addEventListener('click',function(){dlg.showModal();inputs[0].focus();});});
+  dlg.querySelector('.reset').addEventListener('click',function(){inputs.forEach(function(inp){inp.value='';});apply();inputs[0].focus();});
+  dlg.addEventListener('click',function(e){if(e.target===dlg)dlg.close();});
   window.addEventListener('resize',fit); fit();
   window.addEventListener('hashchange',function(){var n=parseInt(location.hash.slice(1),10);if(!isNaN(n)&&n-1!==i)show(n-1,false);});
   var h=parseInt(location.hash.slice(1),10); show(isNaN(h)?0:h-1,false);
