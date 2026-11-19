@@ -41,6 +41,13 @@ p{margin:0}
 .kicker{font-size:24px!important;font-weight:500;color:var(--blue)}
 .dark .kicker{color:#9CCBFF}
 .title-meta{font-size:26px;color:#D6D5DE;margin-top:40px}
+.next-card{display:flex;flex-direction:column;align-self:flex-start;gap:10px;max-width:1100px;padding:28px 34px;border-radius:var(--radius);background:#FFFFFF14;border:1px solid #FFFFFF33;color:#F9F6F9;text-decoration:none;backdrop-filter:blur(6px);transition:background .2s var(--ease),border-color .2s var(--ease),transform .2s var(--ease)}
+.next-card:hover{background:#FFFFFF24;border-color:#9CCBFF;transform:translateY(-2px)}
+.next-card:focus-visible{outline:3px solid #9CCBFF;outline-offset:4px}
+.next-kicker{font-size:20px;font-weight:600;color:#9CCBFF}
+.next-title{font-size:32px;line-height:1.25;font-weight:500;text-wrap:pretty}
+.next-link{font-size:22px;color:#D6D5DE;margin-top:4px}
+.next-card:hover .next-link{color:#fff}
 .small{font-size:22px;color:var(--muted);line-height:1.45}
 .dmarc{margin-top:22px;font-size:19px}
 .wordmark{position:absolute;left:107px;bottom:46px;width:118px;height:33px;background:url(assets/boltnew-wordmark-dark.png) left center/contain no-repeat;font-size:0;color:transparent}
@@ -207,6 +214,7 @@ pre.prompt mark.filled{background:#1488FC40;color:#fff;border-radius:3px;padding
   .prompt-head{flex-wrap:wrap;padding:12px 14px;font-size:14px;gap:10px}
   button.copy{font-size:16px;min-height:44px;padding:0 18px}
   button.fillbtn{font-size:16px;padding:0 14px}
+  .next-card{padding:18px 20px;gap:6px}.next-kicker{font-size:14px}.next-title{font-size:19px}.next-link{font-size:15px}
   a.dl{font-size:16px!important;min-height:44px;padding:0 18px;margin-top:10px}
   pre.prompt,pre.prompt.big{flex:none;overflow:visible;font-size:14px;line-height:1.55;padding:16px}
   .bars{height:180px;gap:8px}
@@ -746,7 +754,11 @@ Add a footer to every email with my business address, [BUSINESS ADDRESS], and "P
 <section class="slide dark">
   <h1>Notice them early. Write like you mean it.</h1>
   <div class="strip"><i></i><i></i><i></i><i></i><i class="gap"></i><i></i><i></i></div>
-  <p class="lead">Next: Tuesday, Nov 24. Leaving money on the table? Add upsells to your booking form. luma.com/bolt-vfwi</p>
+  <a class="next-card" href="https://luma.com/bolt-vfwi" target="_blank" rel="noopener">
+    <span class="next-kicker">Next: Tuesday, Nov 24</span>
+    <span class="next-title">Leaving money on the table? Add upsells to your booking form.</span>
+    <span class="next-link">luma.com/bolt-vfwi <span aria-hidden="true">&rarr;</span></span>
+  </a>
   <p class="title-meta">Come build your business with Bolt.new</p>
   <div class="wordmark">bolt.new</div><div class="folio"></div>
   <aside class="notes"><p class="say">"Your homework: verify your domain, import your real orders, and send three win-back emails this week. Check your rate on the same day next month."</p><p>Drop the Nov 24 link in chat. Thank the co-host. End stream.</p></aside>
