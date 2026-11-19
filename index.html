@@ -430,12 +430,12 @@ Use the site's fonts and colors. Solid buttons with readable text, never outline
   <h2>3 win-back options</h2>
   <table class="ledger">
     <tr><th style="white-space:nowrap">Way to send</th><th>Setup</th><th>Sends from</th><th>Best if</th></tr>
-    <tr><td style="white-space:nowrap"><b>Resend</b> (live today)</td><td>Free account and an API key, about 3 minutes</td><td>Your app, one click</td><td>You want sending built into your dashboard</td></tr>
-    <tr><td style="white-space:nowrap"><b>Your own inbox</b></td><td>None</td><td>Your Gmail or Outlook, as a draft</td><td>You send a handful a week and want replies in your inbox</td></tr>
-    <tr><td style="white-space:nowrap"><b>Your email tool</b></td><td>None</td><td>Mailchimp, Klaviyo, Square, or Shopify Email</td><td>You already send newsletters</td></tr>
+    <tr><td style="white-space:nowrap"><b>Resend</b> (live today)</td><td>Free account and an API key, about 3 minutes</td><td>Your dashboard, one click per customer</td><td>You want sending built into your dashboard</td></tr>
+    <tr><td style="white-space:nowrap"><b>Your own inbox</b></td><td>One more prompt: a "Draft email" button that opens the message in your mail app, filled in for that customer</td><td>Your Gmail or Outlook, you press Send</td><td>You send a handful a week and want replies in your inbox</td></tr>
+    <tr><td style="white-space:nowrap"><b>Your email tool</b></td><td>One more prompt: export Gone quiet as a CSV with first name, weeks and last item. Import it and use those columns as merge fields</td><td>Mailchimp, Klaviyo, Square, or Shopify Email</td><td>You already send newsletters</td></tr>
   </table>
   <div class="wordmark">bolt.new</div><div class="folio"></div>
-  <aside class="notes"><p class="say">"Most of you have never wired up an email service, and you don't have to today. I'll do Resend live. If you'd rather send from your own inbox or your email tool, there's a prompt for that too."</p><p>Ask chat: which one are you picking? Resend people: start signing up now.</p></aside>
+  <aside class="notes"><p class="say">"Most of you have never wired up an email service, and you don't have to today. I'll do Resend live. If you'd rather send from your own inbox or your email tool, there's a prompt for each at the end of the deck."</p><p>Those are backup slides 32 and 33. Show them only if chat asks.</p><p>Ask chat: which one are you picking? Resend people: start signing up now.</p></aside>
 </section>
 
 <!-- 13 -->
@@ -750,6 +750,50 @@ Add a footer to every email with my business address, [BUSINESS ADDRESS], and "P
   <p class="title-meta">Come build your business with Bolt.new</p>
   <div class="wordmark">bolt.new</div><div class="folio"></div>
   <aside class="notes"><p class="say">"Your homework: verify your domain, import your real orders, and send three win-back emails this week. Check your rate on the same day next month."</p><p>Drop the Nov 24 link in chat. Thank the co-host. End stream.</p></aside>
+</section>
+
+<!-- 32 -->
+<section class="slide">
+  <h2 style="margin-bottom:22px">Backup: draft from your own inbox</h2>
+  <div class="prompt-wrap">
+    <div class="prompt-box">
+      <div class="prompt-head"><span>Backup. Paste into the same project, after Prompt 1</span><button class="copy" data-copy="bi">Copy prompt</button></div>
+      <pre class="prompt big" id="bi">Add a "Draft email" button to each Gone quiet row, beside any send button already there.
+
+- It opens a new email in my mail app with a mailto link: to the customer's address, with the subject and body filled in for them, encoded so line breaks, commas, and apostrophes come through.
+- Use the saved email template if there is one. Otherwise: subject "{first name}, it's been a while", body "Hi {first name}, it's been {weeks} weeks since your last {last item}. We just roasted a fresh batch, and I'd love to set one aside for you. Just reply to this email." Signed Ridgeline Coffee Roasters.
+- After I click it, ask "Did you send it?" If I say yes, mark the row "Emailed" with the date.</pre>
+    </div>
+    <div class="side-notes">
+      <div class="panel"><h3>You still press Send</h3><p>Nothing goes out until you send it, so replies land in your own inbox.</p></div>
+      <div class="panel"><h3>Opens your mail app</h3><p>Usually Apple Mail or Outlook. Gmail on the web opens only if it's your default.</p></div>
+      <div class="panel"><h3>Works without Resend</h3><p>It needs only Prompt 1. With Prompt 3, it uses your saved template.</p></div>
+    </div>
+  </div>
+  <div class="folio"></div>
+  <aside class="notes"><p>Backup slide. Show it only if chat asks how to send without Resend. Demo on Backup A: click Draft email on Marcus Hill, show the filled-in message in your mail app, and close it without sending.</p></aside>
+</section>
+
+<!-- 33 -->
+<section class="slide">
+  <h2 style="margin-bottom:22px">Backup: export to your email tool</h2>
+  <div class="prompt-wrap">
+    <div class="prompt-box">
+      <div class="prompt-head"><span>Backup. Paste into the same project, after Prompt 1</span><button class="copy" data-copy="be">Copy prompt</button></div>
+      <pre class="prompt big" id="be">Add an "Export for email tool" button above Gone quiet.
+
+- It downloads a CSV of the customers the list shows right now, at the current weeks setting, with columns email, first_name, last_name, weeks, last_item, total_orders. Quote any value that contains a comma.
+- Leave out anyone marked opted out.
+- After the download, offer "Mark these as Emailed" with today's date, so the list shows who I've reached.</pre>
+    </div>
+    <div class="side-notes">
+      <div class="panel"><h3>One file, any tool</h3><p>Mailchimp, Klaviyo, Square, and Shopify Email all import contacts from a CSV.</p></div>
+      <div class="panel"><h3>Keep it personal</h3><p>Map first_name, weeks, and last_item to merge fields. Check your tool supports custom fields first.</p></div>
+      <div class="panel"><h3>Mark who you reached</h3><p>Mark these as Emailed keeps the dashboard in step with what you sent.</p></div>
+    </div>
+  </div>
+  <div class="folio"></div>
+  <aside class="notes"><p>Backup slide. Show it only if chat asks about Mailchimp or Klaviyo. Demo on Backup A: export at 6 weeks, open the CSV, and point out the weeks and last_item columns.</p></aside>
 </section>
 
 </div></div>

@@ -89,6 +89,30 @@ Add a "Due soon" list above Gone quiet: regulars whose usual gap between orders 
 Make every screen work on a phone 375 pixels wide. Fix anything cut off, overlapping, too small to tap, or scrolling sideways. Stack Gone quiet above the repeat-customer rate.
 ```
 
+## Backup prompts: other ways to send
+
+Not using Resend? Run either one after Prompt 1, in the same project.
+
+### Draft from your own inbox
+
+```
+Add a "Draft email" button to each Gone quiet row, beside any send button already there.
+
+- It opens a new email in my mail app with a mailto link: to the customer's address, with the subject and body filled in for them, encoded so line breaks, commas, and apostrophes come through.
+- Use the saved email template if there is one. Otherwise: subject "{first name}, it's been a while", body "Hi {first name}, it's been {weeks} weeks since your last {last item}. We just roasted a fresh batch, and I'd love to set one aside for you. Just reply to this email." Signed Ridgeline Coffee Roasters.
+- After I click it, ask "Did you send it?" If I say yes, mark the row "Emailed" with the date.
+```
+
+### Export to your email tool
+
+```
+Add an "Export for email tool" button above Gone quiet.
+
+- It downloads a CSV of the customers the list shows right now, at the current weeks setting, with columns email, first_name, last_name, weeks, last_item, total_orders. Quote any value that contains a comma.
+- Leave out anyone marked opted out.
+- After the download, offer "Mark these as Emailed" with today's date, so the list shows who I've reached.
+```
+
 ## For dry runs only: standalone dashboard
 
 Builds the dashboard in a fresh project without the site.
